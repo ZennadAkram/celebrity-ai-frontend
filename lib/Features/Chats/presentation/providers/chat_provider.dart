@@ -13,15 +13,13 @@ import '../../domain/usecases/get_messages_use_case.dart';
 import '../../domain/usecases/send_message_use_case.dart';
 import '../viewmodels/chat_view_model.dart';
 
-ChatViewModel? _globalChatViewModel;
-
-final chatViewModelProvider = StateNotifierProvider<ChatViewModel, ChatState>((ref) {
-  _globalChatViewModel ??= ChatViewModel(
-      ref.read(sendMessageUseCaseProvider),
-      ref,
-    );
-  return _globalChatViewModel!;
+final chatViewModelProvider =
+StateNotifierProvider<ChatViewModel, ChatState>((ref) {
+  return ChatViewModel(
+      ref.watch(sendMessageUseCaseProvider), ref
+  );
 });
+
 
 
 final chatMessagesProvider = StreamProvider<List<MessageEntity>>((ref) {
@@ -36,3 +34,4 @@ final chatMessagesProvider = StreamProvider<List<MessageEntity>>((ref) {
     return ref.read(chatViewModelProvider).messages;
   });
 });
+final messageListProvider=StateProvider<List<MessageEntity>>((ref)=>[]);

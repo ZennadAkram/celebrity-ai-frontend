@@ -13,7 +13,7 @@ class AppColors {
   static const Color brand9 = Color(0xFFFAFAFE);
 
   // Secondary Colors
-  static const Color secondary1 = Color(0xFFFF582E);
+  static const Color secondary1 = Color(0xFFF58E2E);
   static const Color secondary2 = Color(0xFFF78012); // Hex corrected below
   static const Color secondary3 = Color(0xFFF9BB82);
   static const Color secondary4 = Color(0xFFFBD6B4);
@@ -50,6 +50,11 @@ class AppColors {
     colors: [Color(0xFFFF582E), Color(0xFFFF78012)], // corrected hex below
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
+  );
+  static const LinearGradient gradientOrange1 = LinearGradient(
+    colors: [Color(0xFFFF78012),Color(0xFFFF582E), ], // corrected hex below
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
   );
 
   static const LinearGradient gradientMixed = LinearGradient(

@@ -49,6 +49,11 @@ dependencies:
   sound_stream: ^0.4.2
   flutter_sound: ^9.3.11
   permission_handler: ^11.2.0
+  camera: ^0.11.2  # or latest version
+  path_provider: ^2.1.2
+  path: ^1.9.0
+  image_picker: ^1.1.2
+
 
 
   flutter_localizations:
@@ -82,6 +87,9 @@ flutter:
   assets:
     - .env
     - images/svg/
+    - images/avatars/3D/
+    - images/avatars/anime/
+    - images/avatars/movies/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

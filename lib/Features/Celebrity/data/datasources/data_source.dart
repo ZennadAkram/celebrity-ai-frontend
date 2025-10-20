@@ -20,4 +20,24 @@ class DataSourceCelebrity{
       rethrow;
     }
   }
+  Future<void> createCelebrity(CelebrityModel celebrity) async{
+    try{
+      final formData=FormData.fromMap({
+        "name":celebrity.name,
+        "description":celebrity.description,
+        "is_Private":celebrity.isPrivate,
+        "category":celebrity.category,
+        "avatar":await MultipartFile.fromFile(
+          celebrity.image!.path,
+          filename: celebrity.image!.path.split('/').last
+        )
+      });
+      final response=await _dio.post('/celebrities/',data: formData);
+      if(response.statusCode!=201){
+        throw Exception('Failed to create celebrity');
+      }
+    }catch(e){
+      rethrow;
+    }
+  }
 }

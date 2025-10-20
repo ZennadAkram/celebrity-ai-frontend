@@ -4,17 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../domain/entities/stored_message_entity.dart';
 import '../providers/chat_provider.dart';
+import '../providers/chat_session_provider.dart';
 import '../providers/stt_provider.dart';
 class TextFieldChat extends ConsumerWidget {
   final int celebrityId;
-  const TextFieldChat(this.celebrityId, {super.key});
+  final int? sessionId;
+  const TextFieldChat(this.celebrityId, this.sessionId, {super.key});
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
     final vm = ref.read(speechViewModelProvider.notifier);
     final isLoading = ref.watch(chatViewModelProvider).isLoading;
     final viewModel = ref.read(chatViewModelProvider.notifier);
+    final storeMessagesVM = ref.read(storedMessagesViewModelProvider.notifier);
 
     final speechState = ref.watch(speechViewModelProvider);
     final messageController = TextEditingController(text: speechState.recognizedText);
@@ -45,6 +49,10 @@ padding: EdgeInsets.symmetric(horizontal: 40.r),
                  onSubmitted: (value){
                    messageController.text="";
                    viewModel.sendMessage(value, celebrityId);
+                   storeMessagesVM.saveMessage(
+                       StoredMessageEntity(session: sessionId?? 0, sender:'user'  , text:value)
+                   );
+
                    vm.clearText();
 
 

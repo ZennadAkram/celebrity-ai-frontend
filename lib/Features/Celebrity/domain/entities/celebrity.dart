@@ -6,7 +6,9 @@ String name;
 final String? imageUrl;
 String? description;
 final File? image;
-CelebrityEntity({this.id,this.image,this.imageUrl,required this.name,this.description});
+ bool isPrivate;
+ String? category;
+CelebrityEntity({required this.isPrivate,this.id,this.image,this.imageUrl,required this.name,this.description,this.category});
 
 
 }

@@ -9,13 +9,16 @@ class CelebrityModel{
   final String? avatar;
   String? description;
   final File? image;
-  CelebrityModel({this.id,this.image,this.avatar,required this.name,this.description});
+  bool isPrivate;
+  String? category;
+  CelebrityModel({required this.isPrivate,this.id,this.image,this.avatar,required this.name,this.description,this.category});
 
   factory CelebrityModel.fromJson(Map<String,dynamic> json){
     return CelebrityModel(
       id: json['id'],
       name: json['name'],
-      avatar: json['avatar'],
+      avatar: json['avatar'], isPrivate: json['is_Private'],
+      category: json['category'],
 
     );
 
@@ -24,7 +27,9 @@ factory CelebrityModel.fromEntity(CelebrityEntity entity){
     return CelebrityModel(
       name: entity.name,
       description: entity.description,
-      image: entity.image
+      image: entity.image,
+      isPrivate: entity.isPrivate,
+      category: entity.category
     );
   }
  CelebrityEntity toEntity(){
@@ -32,8 +37,13 @@ factory CelebrityModel.fromEntity(CelebrityEntity entity){
       name: name,
       id: id,
       imageUrl: avatar,
+      isPrivate: isPrivate,
+      category: category
     );
+
   }
+
+
 
 
 
