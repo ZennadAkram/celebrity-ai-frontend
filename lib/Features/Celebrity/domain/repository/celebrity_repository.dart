@@ -1,7 +1,7 @@
 import 'package:chat_with_charachter/Features/Celebrity/domain/entities/celebrity.dart';
 
 abstract class CelebrityRepository{
-  Future<List<CelebrityEntity>> getCelebrities(String? category);
+  Future<List<CelebrityEntity>> getCelebrities(String? category,bool? isPrivate);
   Future<void> createCelebrity(CelebrityEntity celebrity);
   Future<void> deleteCelebrity(int id);
 }

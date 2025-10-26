@@ -6,7 +6,7 @@ String userName;
 String? _password;
 String? email;
 final String? avatarUrl; // for images from backend
-final File? avatarFile;
+ File? avatarFile;
 User({required this.userName,this.email,this.avatarFile,this.avatarUrl,this.id});
 void setPassword(String password){
   this._password=password;

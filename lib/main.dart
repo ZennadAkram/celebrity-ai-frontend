@@ -8,6 +8,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'Core/Providers/locale_provider.dart';
 import 'Core/Services/camera_service.dart';
 import 'Features/Auth/presentation/views/Sign_In.dart';
 import 'Features/Auth/presentation/views/Sign_Up.dart';
@@ -15,8 +16,11 @@ import 'Features/Celebrity/presentation/views/create_celebrity_views/create_cele
 import 'Features/Celebrity/presentation/views/create_celebrity_views/create_celebrity_page_5.dart';
 import 'Features/Onboarding/Onboarding-1.dart';
 import 'Shared/Global_Widgets/Main_App.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:permission_handler/permission_handler.dart';
+
+import 'generated/l10n.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
@@ -30,19 +34,28 @@ Future<void> main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final locale = ref.watch(localeProvider);
+
     return ScreenUtilInit(
-      // Use the Redmi Note 13 Pro resolution as the design size
       designSize: const Size(1220, 2712),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp(
+          locale: locale,
+          supportedLocales: S.delegate.supportedLocales,
+          localizationsDelegates: const [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
           theme: ThemeData(
-
             textSelectionTheme: TextSelectionThemeData(
               selectionColor: Colors.lightGreenAccent.withOpacity(0.5),
               cursorColor: Colors.white,
@@ -53,9 +66,9 @@ class MyApp extends StatelessWidget {
           home: MainApp(),
         );
       },
-
     );
   }
 }
+
 
 

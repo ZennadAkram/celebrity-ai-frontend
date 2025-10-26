@@ -1,4 +1,4 @@
-import '../entities/User.dart';
+import '../../../../Core/Domain/entities/User.dart';
 import '../repositories/repository.dart';
 
 class SignUpUseCase{

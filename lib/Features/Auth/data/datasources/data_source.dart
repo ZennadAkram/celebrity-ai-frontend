@@ -70,23 +70,5 @@ Future<void> signUp(UserModel user) async {
     throw Exception("Unknown error occurred");
   }
 }
-// Future<UserModel> getUser() async {
-//   try {
-//     final response = await _dio.get('/me/');
-//     return UserModel.fromJson(response.data);
-//   } on DioError catch (e) {
-//     if (e.response != null) {
-//       print("🔴 Fetch user failed: ${e.response?.data}");
-//       throw Exception(e.response?.data['message'] ?? "Fetch user failed");
-//     } else {
-//       print("🔴 Network error: $e");
-//       throw Exception("Network error occurred");
-//     }
-//   } catch (e) {
-//     print("🔴 General error: $e");
-//     throw Exception("Unknown error occurred");
-//   }
-// }
-
 
 }

@@ -29,8 +29,8 @@ class ChatSessionsPage extends ConsumerWidget {
             print("👏👏👏👏👏👏👏👏 ${sessions.length}");
           }
 
-          return SizedBox(
-            height: 0.75.sh,
+          return Expanded(
+
             child: ListView.builder(
               padding: EdgeInsets.symmetric(horizontal: 30.r),
                 itemCount: sessions.length,

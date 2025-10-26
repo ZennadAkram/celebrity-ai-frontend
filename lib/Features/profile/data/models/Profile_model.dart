@@ -1,0 +1,51 @@
+import 'dart:io';
+
+import 'package:chat_with_charachter/Core/Domain/entities/User.dart';
+
+class ProfileModel {
+  int? id;
+  String userName;
+  String? _password;
+  String? email;
+  final String? avatarUrl; // for images from backend
+  final File? avatarFile;
+
+  ProfileModel(
+      {required this.userName, this.email, this.avatarFile, this.avatarUrl,this.id});
+
+  void setPassword(String password) {
+    this._password = password;
+  }
+
+  String? getPassword() {
+    return this._password;
+  }
+
+  factory ProfileModel.fromJson(Map<String, dynamic> json) {
+    return ProfileModel(
+      id: json['id'],
+      userName: json['username'],
+      email: json['email'],
+      avatarUrl: json['user_avatar'],
+    );
+  }
+  factory ProfileModel.fromEntity(User entity){
+    return ProfileModel(
+      id: entity.id,
+      userName: entity.userName,
+      email: entity.email,
+      avatarFile: entity.avatarFile,
+    );
+  }
+  User toEntity(){
+    return User(
+      id: this.id,
+      userName: this.userName,
+      email: this.email,
+      avatarUrl: this.avatarUrl,
+
+    );
+  }
+
+
+}

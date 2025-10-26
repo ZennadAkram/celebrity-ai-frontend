@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:chat_with_charachter/Features/Auth/domain/entities/User.dart';
+import 'package:chat_with_charachter/Core/Domain/entities/User.dart';
 
 class UserModel {
   int? id;

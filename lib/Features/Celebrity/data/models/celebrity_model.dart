@@ -19,6 +19,7 @@ class CelebrityModel{
       name: json['name'],
       avatar: json['avatar'], isPrivate: json['is_Private'],
       category: json['category'],
+      description: json['description']
 
     );
 
@@ -38,7 +39,8 @@ factory CelebrityModel.fromEntity(CelebrityEntity entity){
       id: id,
       imageUrl: avatar,
       isPrivate: isPrivate,
-      category: category
+      category: category,
+      description: description
     );
 
   }

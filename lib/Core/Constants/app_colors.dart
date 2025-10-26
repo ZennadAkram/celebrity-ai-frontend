@@ -58,8 +58,8 @@ class AppColors {
   );
 
   static const LinearGradient gradientMixed = LinearGradient(
-    colors: [Color(0xFF475BFF), Color(0xFFFF582E)],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
+    colors: [Color(0xFFF58E2E),Color(0xFF475BFF) ],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
   );
 }

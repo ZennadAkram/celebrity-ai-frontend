@@ -84,7 +84,7 @@ class MySearchDelegate extends SearchDelegate {
             icon: Icon(Icons.arrow_back),
             onPressed: () {
               query = '';
-              ref.read(viewModelProvider.notifier).getCelebrities("");
+              ref.read(viewModelProvider.notifier).getCelebrities("",null);
               close(context, null); // close search
             },
           )
@@ -112,7 +112,7 @@ class MySearchDelegate extends SearchDelegate {
             (celebrities == null || celebrities.length != 1)) {
           _lastQuery = query;
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            notifier.getCelebrities(query);
+            notifier.getCelebrities(query,null);
           });
         }
 
@@ -225,7 +225,7 @@ class MySearchDelegate extends SearchDelegate {
             // Only fetch if the user is still typing (not just pressed a suggestion)
             if (ModalRoute.of(context)?.isCurrent ?? true) {
               _lastFetchedQuery = query;
-              notifier.getCelebrities(query);
+              notifier.getCelebrities(query,null);
             }
           });
         }

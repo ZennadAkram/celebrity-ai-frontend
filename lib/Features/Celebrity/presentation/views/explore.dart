@@ -41,17 +41,17 @@ class Explore extends ConsumerWidget {
             choices: const ['All','Movies','Series','Cartoons','Anime','Documentary'],
             onSelected: (choice){
               if(choice!='All'){
-                ref.read(viewModelProvider.notifier).getCelebrities(choice);
+                ref.read(viewModelProvider.notifier).getCelebrities(choice,null);
               }else{
-                ref.read(viewModelProvider.notifier).getCelebrities("");
+                ref.read(viewModelProvider.notifier).getCelebrities("",null);
               }
 
             },
           ),
         ),
         SizedBox(height: 0.03.sh,),
-        SizedBox(
-          height: 0.7.sh,
+        Expanded(
+
           child:celebritiesState.when(data:(celebrities){
           return ListView.builder(
               itemCount: celebrities.length,

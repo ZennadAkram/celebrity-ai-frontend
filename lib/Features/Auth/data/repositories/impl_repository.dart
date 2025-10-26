@@ -1,4 +1,4 @@
-import 'package:chat_with_charachter/Features/Auth/domain/entities/User.dart';
+import 'package:chat_with_charachter/Core/Domain/entities/User.dart';
 import 'package:chat_with_charachter/Features/Auth/domain/repositories/repository.dart';
 
 import '../datasources/data_source.dart';
@@ -22,10 +22,6 @@ await dataSource.SignIn(username, password);
     return dataSource.signUp(model);
   }
 
-  @override
-  Future<User> getUser() {
-    // TODO: implement getUser
-    throw UnimplementedError();
-  }
+
 
 }

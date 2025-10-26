@@ -4,7 +4,7 @@ import 'package:chat_with_charachter/Features/Celebrity/domain/repository/celebr
 class GetCelebrityUseCase{
   final CelebrityRepository repository;
   GetCelebrityUseCase(this.repository);
-  Future<List<CelebrityEntity>> call(String? category){
-    return repository.getCelebrities(category);
+  Future<List<CelebrityEntity>> call(String? category,bool? isPrivate) {
+    return repository.getCelebrities(category, isPrivate);
   }
 }

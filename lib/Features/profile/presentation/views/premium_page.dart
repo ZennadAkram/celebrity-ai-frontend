@@ -1,0 +1,170 @@
+import 'package:chat_with_charachter/Core/Constants/app_colors.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import '../providers/profile_provider.dart';
+
+class PremiumPage extends ConsumerWidget {
+  const PremiumPage({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    List<double> planes = [9.99, 24.99, 99.99];
+    List<String> months = ["1 Month", "3 Months", "12 Months"];
+    final changePlan = ref.read(selectedPlaneProvider.notifier);
+    final selectedPlan = ref.watch(selectedPlaneProvider);
+
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 40.r),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 0.05.sh),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: Icon(Icons.close, color: AppColors.white2, size: 25),
+                  ),
+                ),
+                SizedBox(height: 0.12.sh),
+                ShaderMask(
+                  shaderCallback: (bounds) => AppColors.gradientMixed
+                      .createShader(Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
+                  child: Text(
+                    '60% OFF',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 125.sp,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 0.01.sh),
+                Text(
+                  'Get Character.AI Premium to enjoy all the benefits!',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.white2,
+                    fontSize: 80.sp,
+                  ),
+                ),
+                SizedBox(height: 0.01.sh),
+                Text(
+                  'Subscribe to Character.AI Premium and get unlimited access to all our models and voices!',
+                  style: TextStyle(
+                    color: AppColors.grey2,
+                  ),
+                ),
+                SizedBox(height: 0.03.sh),
+
+                /// Gradient Border Cards
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: planes.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () => changePlan.state = index,
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 30.r),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: selectedPlan == index
+                                ? [
+                              Color(0xFFF58E2E),Color(0xFF475BFF)
+                            ]
+                                : [
+                             AppColors.black2,
+                              AppColors.black2
+                            ],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: EdgeInsets.all(2), // Border thickness
+                        child: Container(
+                          height: 0.09.sh,
+                          padding: EdgeInsets.symmetric(horizontal: 50.r),
+                          decoration: BoxDecoration(
+                            color: AppColors.black2,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${planes[index]}\$',
+                                    style: TextStyle(
+                                      fontSize: 60.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.white2,
+                                    ),
+                                  ),
+                                  SizedBox(height: 0.01.sh),
+                                  Text(
+                                    months[index],
+                                    style: TextStyle(
+                                      fontSize: 30.sp,
+                                      color: AppColors.white2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SvgPicture.asset(
+                                selectedPlan == index
+                                    ? 'images/svg/pointergr.svg'
+                                    : 'images/svg/pointer.svg',
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(height: 0.03.sh),
+                 SizedBox(
+
+                  width: double.infinity,
+                  height: 0.06.sh,
+                  child: ElevatedButton(onPressed: () {
+
+
+                  },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.brand1
+                    ), child: Text('Start Now',style: TextStyle(
+                        fontSize: 55.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.white2
+                    ),),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: TextButton(onPressed: (){}, child: Text('Term & Conditions',style: TextStyle(
+                    color: AppColors.white2,
+                    fontSize: 40.sp
+                  ),)),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
