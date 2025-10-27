@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../Core/Constants/app_colors.dart';
 import '../../../../Shared/Enum/message_type.dart';
+import '../../../../generated/l10n.dart';
 import '../../../Celebrity/domain/entities/celebrity.dart';
 import '../../data/repository/chat_repository_impl.dart';
 import '../../domain/entities/chat_session_entity.dart';
@@ -18,6 +19,7 @@ import '../widgets/message_body.dart';
 import '../widgets/text_field.dart';
 
 class ChatPage extends HookConsumerWidget {
+
   final CelebrityEntity? entity;
   final ChatSessionEntity? entitySession;
   const ChatPage( {this.entity, this.entitySession,super.key});
@@ -26,6 +28,8 @@ class ChatPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
 
     useEffect((){
       // Initialize chat repository
@@ -68,7 +72,7 @@ class ChatPage extends HookConsumerWidget {
     final storedMessages =ref.watch(storedMessagesViewModelProvider);
 
     return Scaffold(
-      backgroundColor: Colors.black,
+
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -127,7 +131,7 @@ class ChatPage extends HookConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Error loading messages',
+                        S.of(context).errorLoadingMessages,
                           style: TextStyle(
                             color: Colors.red,
                             fontSize: 45.sp,
@@ -137,7 +141,7 @@ class ChatPage extends HookConsumerWidget {
                         ElevatedButton(
                           onPressed: () {},
                           child: Text(
-                            'Retry',
+                              S.of(context).retryButton,
                             style: TextStyle(fontSize: 40.sp),
                           ),
                         ),
@@ -150,7 +154,7 @@ class ChatPage extends HookConsumerWidget {
 
         // Input Field
             Material(
-              color: Colors.black,
+              color:isDark? Colors.black:AppColors.black1,
               child: TextFieldChat(
                 entity?.id ?? entitySession?.celebrity ?? 0,entitySession?.id
               ),

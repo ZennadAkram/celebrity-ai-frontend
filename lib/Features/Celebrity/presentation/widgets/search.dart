@@ -15,12 +15,12 @@ class MySearchDelegate extends SearchDelegate {
 
   MySearchDelegate(this.data);
   @override
-  TextStyle? get searchFieldStyle => const TextStyle(color: Colors.white);
+  TextStyle? get searchFieldStyle => TextStyle(color: AppColors.white2);
 
   @override
   InputDecorationTheme get searchFieldDecorationTheme => InputDecorationTheme(
     filled: true,
-    fillColor: Color(0xFF1E1E1E),
+    fillColor: AppColors.black1,
 
     // dark background
     hintStyle: TextStyle(color: AppColors.white2),
@@ -29,8 +29,14 @@ class MySearchDelegate extends SearchDelegate {
       vertical: 14, // top & bottom padding
       horizontal: 10, // left & right padding
     ),
+    enabledBorder:OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+
+      borderSide: BorderSide.none
+    ) ,
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
+
       borderSide: BorderSide.none,
     ),
   );
@@ -39,26 +45,38 @@ class MySearchDelegate extends SearchDelegate {
 
   @override
   ThemeData appBarTheme(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
 
-    return ThemeData(
-
+    return theme.copyWith(
+      scaffoldBackgroundColor: isDark ? Colors.black : Colors.white,
       appBarTheme: AppBarTheme(
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+
+        backgroundColor: isDark ? Colors.black : Colors.white,
         toolbarHeight: 0.15.sw,
         titleSpacing: 0,
-        backgroundColor: Colors.black, // change this to any color you want
-        iconTheme: IconThemeData(color:AppColors.white2), // color of the back button
-        toolbarTextStyle: TextStyle(color: AppColors.white2, fontSize: 18),
-        titleTextStyle: TextStyle(color: AppColors.white2, fontSize: 18),
+        iconTheme: IconThemeData(
+          color: AppColors.white2,
+        ),
+        toolbarTextStyle: TextStyle(
+          color:  AppColors.white2,
+          fontSize: 18,
+        ),
+        titleTextStyle: TextStyle(
+          color: isDark ? AppColors.white2 : AppColors.black1,
+          fontSize: 18,
+        ),
       ),
       textSelectionTheme: TextSelectionThemeData(
-        cursorColor: AppColors.grey1, // <-- cursor color
-        selectionColor: AppColors.grey1, // text selection color
-        selectionHandleColor: AppColors.grey1, // handle color when selecting text
+        cursorColor: AppColors.white2 ,
+        selectionColor: AppColors.brand1,
+        selectionHandleColor: AppColors.brand1,
       ),
-      inputDecorationTheme: searchFieldDecorationTheme, // keep your custom text field
-      scaffoldBackgroundColor: Colors.black,
+      inputDecorationTheme: searchFieldDecorationTheme,
     );
-
   }
 
   @override

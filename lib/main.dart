@@ -10,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'Core/Providers/locale_provider.dart';
 import 'Core/Services/camera_service.dart';
+import 'Core/Services/preferences_service.dart'; // Import your PreferencesService
 import 'Features/Auth/presentation/views/Sign_In.dart';
 import 'Features/Auth/presentation/views/Sign_Up.dart';
 import 'Features/Celebrity/presentation/views/create_celebrity_views/create_celebrity_page_3.dart';
@@ -21,54 +22,144 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'generated/l10n.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
 
-
   await Permission.camera.request();
-
-
   await CameraService.initCameras();
 
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  bool _isInitialized = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeApp();
+  }
+
+  Future<void> _initializeApp() async {
+    try {
+      final prefsService = PreferencesService();
+
+      // Load saved preferences
+      final savedTheme = await prefsService.getTheme();
+      final savedLanguageCode = await prefsService.getLanguage();
+
+      // Update providers with saved values
+      ref.read(isDarkModeProvider.notifier).state = savedTheme;
+      ref.read(localeProvider.notifier).changeLocale(Locale(savedLanguageCode));
+
+      print('App initialized with theme: $savedTheme, language: $savedLanguageCode');
+    } catch (e) {
+      print('Error initializing app preferences: $e');
+      // Use defaults if loading fails
+      ref.read(isDarkModeProvider.notifier).state = true; // Default to dark
+      ref.read(localeProvider.notifier).changeLocale(const Locale('en')); // Default to English
+    } finally {
+      setState(() {
+        _isInitialized = true;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_isInitialized) {
+      return MaterialApp(
+        home: Scaffold(
+          backgroundColor: Colors.black, // Use a neutral color
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.brand1),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  'Loading...',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    AppColors.setRef(ref);
+    final isDarkMode = ref.watch(isDarkModeProvider);
     final locale = ref.watch(localeProvider);
+
+    final theme = ThemeData(
+      brightness: Brightness.light,
+      scaffoldBackgroundColor: Colors.white,
+      textSelectionTheme: TextSelectionThemeData(
+        selectionColor: Colors.lightGreenAccent.withOpacity(0.5),
+        cursorColor: AppColors.black1,
+        selectionHandleColor: AppColors.brand1,
+      ),
+    );
+
+    final darkTheme = ThemeData(
+      brightness: Brightness.dark,
+      scaffoldBackgroundColor: Colors.black,
+      textSelectionTheme: TextSelectionThemeData(
+        selectionColor: Colors.lightGreenAccent.withOpacity(0.5),
+        cursorColor: AppColors.white2,
+        selectionHandleColor: AppColors.brand1,
+      ),
+    );
 
     return ScreenUtilInit(
       designSize: const Size(1220, 2712),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp(
-          locale: locale,
-          supportedLocales: S.delegate.supportedLocales,
-          localizationsDelegates: const [
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          theme: ThemeData(
-            textSelectionTheme: TextSelectionThemeData(
-              selectionColor: Colors.lightGreenAccent.withOpacity(0.5),
-              cursorColor: Colors.white,
-              selectionHandleColor: AppColors.brand1,
+        return AnimatedTheme(
+          data: isDarkMode ? darkTheme : theme,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOutCubic,
+          child: MaterialApp(
+            locale: locale,
+            supportedLocales: S.delegate.supportedLocales,
+            localizationsDelegates: const [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            theme: theme,
+            darkTheme: darkTheme,
+            themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+            debugShowCheckedModeBanner: false,
+            home: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 500),
+              switchOutCurve: Curves.easeOut,
+              child: Container(
+                key: ValueKey<bool>(isDarkMode),
+                color: Theme.of(context).scaffoldBackgroundColor,
+                child: const MainApp(),
+              ),
             ),
           ),
-          debugShowCheckedModeBanner: false,
-          home: MainApp(),
         );
       },
     );
   }
 }
-
-
-

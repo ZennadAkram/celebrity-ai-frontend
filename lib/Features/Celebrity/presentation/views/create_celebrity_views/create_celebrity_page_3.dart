@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../Core/Constants/app_colors.dart';
+import '../../../../../generated/l10n.dart';
 import '../../providers/celebrity_providers.dart';
 import '../../providers/create_celebrity_providers/category_provider.dart' hide categoryProvider;
 class CreateCelebrityPage3 extends ConsumerWidget {
@@ -18,7 +19,7 @@ class CreateCelebrityPage3 extends ConsumerWidget {
     final categoriesState=ref.watch(categoryViewModelProvider);
 
     return Scaffold(
-      backgroundColor: Colors.black,
+
       body: SafeArea(
         child: Padding(padding:EdgeInsets.symmetric(horizontal: 40.r) ,
         child: Column(
@@ -27,7 +28,7 @@ class CreateCelebrityPage3 extends ConsumerWidget {
             Container(
               padding: EdgeInsets.only(top: 50.r),
               height: 200.h,
-              color: Colors.black,
+
               child: Row(
                 children: [
                   BackButton(
@@ -40,7 +41,7 @@ class CreateCelebrityPage3 extends ConsumerWidget {
                     color: AppColors.white2,
                   ),
                   SizedBox(width: 40.r,),
-                  Text('Create Character',style: TextStyle(
+                  Text(S.of(context).createCharacterTitle,style: TextStyle(
                       color: AppColors.white2,
                       fontSize: 60.sp
                   ),),
@@ -52,7 +53,7 @@ class CreateCelebrityPage3 extends ConsumerWidget {
               padding:  EdgeInsets.only(left: 26.r),
               child: Row(
                 children: [
-                  Text('Appearance Description',
+                  Text(S.of(context).appearanceDescriptionLabel,
 
                     style: TextStyle(
 
@@ -86,7 +87,7 @@ class CreateCelebrityPage3 extends ConsumerWidget {
                 decoration: InputDecoration(
                   fillColor: AppColors.black1,
                   filled: true,
-                  border: OutlineInputBorder(
+                  enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
                           color: AppColors.grey1
@@ -98,7 +99,7 @@ class CreateCelebrityPage3 extends ConsumerWidget {
                           color: AppColors.brand1
                       )
                   ),
-                  hintText: 'type your appearance description here',
+                  hintText: S.of(context).appearanceDescriptionHint,
                   hintStyle: TextStyle(
                       color: AppColors.grey1
                   ),
@@ -108,7 +109,7 @@ class CreateCelebrityPage3 extends ConsumerWidget {
             SizedBox(height: 0.03.sh,),
             Padding(
               padding:  EdgeInsets.only(left: 26.r),
-              child: Text('Character Category',
+              child: Text(S.of(context).characterCategoryLabel,
 
                 style: TextStyle(
 
@@ -163,7 +164,7 @@ class CreateCelebrityPage3 extends ConsumerWidget {
 
                     )
 
-                    , child:Text('Next',style: TextStyle(
+                    , child:Text(S.of(context).nextButton,style: TextStyle(
                         fontSize: 50.sp,
                         fontWeight: FontWeight.w600,
                         color: AppColors.white2

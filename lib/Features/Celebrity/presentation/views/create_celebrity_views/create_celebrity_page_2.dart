@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../Core/Constants/app_colors.dart';
 import '../../../../../Shared/Global_Widgets/chip_choice.dart';
+import '../../../../../generated/l10n.dart';
 import '../../providers/celebrity_providers.dart';
 class CreateCelebrityPage2 extends ConsumerWidget {
   const CreateCelebrityPage2({super.key});
@@ -15,7 +16,7 @@ class CreateCelebrityPage2 extends ConsumerWidget {
     final viewModelChanger=ref.read(viewModelProvider.notifier);
     final private=ref.watch(isPrivateProvider.notifier);
     return Scaffold(
-      backgroundColor: Colors.black,
+
         body: SafeArea(
         child: Padding(
           padding:  EdgeInsets.symmetric(horizontal: 40.r),
@@ -26,7 +27,7 @@ class CreateCelebrityPage2 extends ConsumerWidget {
                 Container(
                   padding: EdgeInsets.only(top: 50.r),
                   height: 200.h,
-                  color: Colors.black,
+
                   child: Row(
                     children: [
                       BackButton(
@@ -39,7 +40,7 @@ class CreateCelebrityPage2 extends ConsumerWidget {
                         color: AppColors.white2,
                       ),
                       SizedBox(width: 40.r,),
-                      Text('Create Character',style: TextStyle(
+                      Text(S.of(context).createCharacterTitle,style: TextStyle(
                           color: AppColors.white2,
                           fontSize: 60.sp
                       ),),
@@ -62,6 +63,13 @@ class CreateCelebrityPage2 extends ConsumerWidget {
                   decoration: InputDecoration(
                     fillColor: AppColors.black1,
                    filled: true,
+                    enabledBorder: OutlineInputBorder( // ← Add this
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                        color: AppColors.grey1,
+                        width: 1.0,
+                      ),
+                    ),
                    border: OutlineInputBorder(
                      borderRadius: BorderRadius.circular(12),
                      borderSide: BorderSide(
@@ -74,7 +82,7 @@ class CreateCelebrityPage2 extends ConsumerWidget {
                             color: AppColors.brand1
                         )
                     ),
-                    hintText: 'Character name',
+                    hintText: S.of(context).characterNameHint,
                     hintStyle: TextStyle(
                       color: AppColors.grey1
                     ),
@@ -85,12 +93,12 @@ class CreateCelebrityPage2 extends ConsumerWidget {
                   alignedDropdown: true, // 👈 aligns the dropdown menu and hint
                   child: DropdownButtonFormField<String>(
                   dropdownColor: AppColors.black1,
-                  icon: const Icon(
+                  icon: Icon(
                   Icons.keyboard_arrow_down_sharp,
                   color: AppColors.grey1,
                   size: 24,
                   ),
-                  style: const TextStyle(
+                  style:  TextStyle(
                   color: AppColors.white2,
                   fontWeight: FontWeight.w600,
                   ),
@@ -98,7 +106,7 @@ class CreateCelebrityPage2 extends ConsumerWidget {
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18), // 👈 tune this
                   fillColor: AppColors.black1,
                   filled: true,
-                  border: OutlineInputBorder(
+                  enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(12)),
                   borderSide: BorderSide(color: AppColors.grey1),
                   ),
@@ -107,21 +115,21 @@ class CreateCelebrityPage2 extends ConsumerWidget {
                   borderSide: BorderSide(color: AppColors.brand1),
                   ),
                   ),
-                  hint: const Text(
-                  'Choose gender',
+                  hint:  Text(
+                    S.of(context).chooseGenderHint,
                   style: TextStyle(
                   color: AppColors.grey1,
                   fontWeight: FontWeight.w600,
                   ),
                   ),
-                  items: const [
+                  items:  [
                   DropdownMenuItem(
                   value: 'Male',
-                  child: Text('Male'),
+                  child: Text(S.of(context).male),
                   ),
                   DropdownMenuItem(
                   value: 'Female',
-                  child: Text('Female'),
+                  child: Text(S.of(context).female),
                   ),
                   ],
                   onChanged: (value) {
@@ -132,7 +140,7 @@ class CreateCelebrityPage2 extends ConsumerWidget {
                   SizedBox(height: 0.03.sh,),
                 Padding(
                   padding:  EdgeInsets.only(left: 26.r),
-                  child: Text('Character info',
+                  child: Text(S.of(context).characterInfoLabel,
 
                     style: TextStyle(
 
@@ -163,7 +171,7 @@ class CreateCelebrityPage2 extends ConsumerWidget {
                     decoration: InputDecoration(
                       fillColor: AppColors.black1,
                       filled: true,
-                      border: OutlineInputBorder(
+                      enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(
                               color: AppColors.grey1
@@ -175,7 +183,7 @@ class CreateCelebrityPage2 extends ConsumerWidget {
                               color: AppColors.brand1
                           )
                       ),
-                      hintText: 'Descript your character information',
+                      hintText: S.of(context).characterDescriptionHint,
                       hintStyle: TextStyle(
                           color: AppColors.grey1
                       ),
@@ -185,7 +193,7 @@ class CreateCelebrityPage2 extends ConsumerWidget {
                 SizedBox(height: 0.03.sh,),
                 Padding(
                   padding:  EdgeInsets.only(left: 26.r),
-                  child: Text('Greeting',
+                  child: Text(S.of(context).greetingLabel,
 
                     style: TextStyle(
 
@@ -215,7 +223,7 @@ class CreateCelebrityPage2 extends ConsumerWidget {
                     decoration: InputDecoration(
                       fillColor: AppColors.black1,
                       filled: true,
-                      border: OutlineInputBorder(
+                      enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(
                               color: AppColors.grey1
@@ -227,7 +235,7 @@ class CreateCelebrityPage2 extends ConsumerWidget {
                               color: AppColors.brand1
                           )
                       ),
-                      hintText: 'type your greeting here',
+                      hintText: S.of(context).greetingHint,
                       hintStyle: TextStyle(
                           color: AppColors.grey1
                       ),
@@ -237,7 +245,7 @@ class CreateCelebrityPage2 extends ConsumerWidget {
                 SizedBox(height: 0.03.sh,),
                 Padding(
                   padding:  EdgeInsets.only(left: 26.r),
-                  child: Text('Visibility',
+                  child: Text(S.of(context).visibilityLabel,
 
                     style: TextStyle(
 
@@ -249,7 +257,7 @@ class CreateCelebrityPage2 extends ConsumerWidget {
 
                 SizedBox(
                     height: 0.045.sh,
-                    child: ChipChoice(choices: ['Public','Private'], onSelected: (String value) {
+                    child: ChipChoice(choices: [S.of(context).publicOption,S.of(context).privateOption], onSelected: (String value) {
                       if(value=='Private'){
                         private.state=true;
                       }else{
@@ -264,7 +272,7 @@ class CreateCelebrityPage2 extends ConsumerWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Advanced (optional)',style: TextStyle(
+                      Text(S.of(context).advancedOptional,style: TextStyle(
 
                           color: AppColors.white2
                       ),),
@@ -292,7 +300,7 @@ class CreateCelebrityPage2 extends ConsumerWidget {
 
                       )
 
-                      , child:Text('Next',style: TextStyle(
+                      , child:Text(S.of(context).nextButton,style: TextStyle(
                           fontSize: 50.sp,
                           fontWeight: FontWeight.w600,
                           color: AppColors.white2

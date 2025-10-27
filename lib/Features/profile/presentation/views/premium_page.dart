@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../generated/l10n.dart';
 import '../providers/profile_provider.dart';
 
 class PremiumPage extends ConsumerWidget {
@@ -11,13 +12,15 @@ class PremiumPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     List<double> planes = [9.99, 24.99, 99.99];
-    List<String> months = ["1 Month", "3 Months", "12 Months"];
+    List<String> months = [S.of(context).month1, S.of(context).month3, S.of(context).month12];
     final changePlan = ref.read(selectedPlaneProvider.notifier);
     final selectedPlan = ref.watch(selectedPlaneProvider);
 
     return Scaffold(
-      backgroundColor: Colors.black,
+
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 40.r),
@@ -38,7 +41,7 @@ class PremiumPage extends ConsumerWidget {
                   shaderCallback: (bounds) => AppColors.gradientMixed
                       .createShader(Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
                   child: Text(
-                    '60% OFF',
+                    S.of(context).sixtyOff,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -48,7 +51,7 @@ class PremiumPage extends ConsumerWidget {
                 ),
                 SizedBox(height: 0.01.sh),
                 Text(
-                  'Get Character.AI Premium to enjoy all the benefits!',
+                  S.of(context).premiumTitle,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     color: AppColors.white2,
@@ -57,7 +60,7 @@ class PremiumPage extends ConsumerWidget {
                 ),
                 SizedBox(height: 0.01.sh),
                 Text(
-                  'Subscribe to Character.AI Premium and get unlimited access to all our models and voices!',
+                  S.of(context).premiumSubtitle,
                   style: TextStyle(
                     color: AppColors.grey2,
                   ),
@@ -81,8 +84,8 @@ class PremiumPage extends ConsumerWidget {
                               Color(0xFFF58E2E),Color(0xFF475BFF)
                             ]
                                 : [
-                             AppColors.black2,
-                              AppColors.black2
+                             isDark ? AppColors.black2:Colors.white,
+                              isDark ? AppColors.black2:Colors.white
                             ],
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
@@ -94,7 +97,7 @@ class PremiumPage extends ConsumerWidget {
                           height: 0.09.sh,
                           padding: EdgeInsets.symmetric(horizontal: 50.r),
                           decoration: BoxDecoration(
-                            color: AppColors.black2,
+                            color:isDark? AppColors.black2:AppColors.grey6,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Row(
@@ -123,10 +126,17 @@ class PremiumPage extends ConsumerWidget {
                                   ),
                                 ],
                               ),
+                              selectedPlan == index?
                               SvgPicture.asset(
-                                selectedPlan == index
-                                    ? 'images/svg/pointergr.svg'
-                                    : 'images/svg/pointer.svg',
+
+                                    'images/svg/pointergr.svg'
+
+                              ):
+                              SvgPicture.asset(
+
+
+                                     'images/svg/pointer.svg',
+                                color: AppColors.white2,
                               ),
                             ],
                           ),
@@ -146,7 +156,7 @@ class PremiumPage extends ConsumerWidget {
                   },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.brand1
-                    ), child: Text('Start Now',style: TextStyle(
+                    ), child: Text(S.of(context).startNow,style: TextStyle(
                         fontSize: 55.sp,
                         fontWeight: FontWeight.w600,
                         color: AppColors.white2
@@ -155,7 +165,7 @@ class PremiumPage extends ConsumerWidget {
                 ),
                 Align(
                   alignment: Alignment.center,
-                  child: TextButton(onPressed: (){}, child: Text('Term & Conditions',style: TextStyle(
+                  child: TextButton(onPressed: (){}, child: Text(S.of(context).termsConditions,style: TextStyle(
                     color: AppColors.white2,
                     fontSize: 40.sp
                   ),)),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../generated/l10n.dart';
 import '../providers/chat_session_provider.dart';
 import '../widgets/chat_card.dart';
 class ChatSessionsPage extends ConsumerWidget {
@@ -16,7 +17,7 @@ class ChatSessionsPage extends ConsumerWidget {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Chats',style: TextStyle(
+        Text(S.of(context).chatsTitle,style: TextStyle(
           color: AppColors.white2,
           fontSize: 60.sp
 
@@ -43,7 +44,7 @@ class ChatSessionsPage extends ConsumerWidget {
 
             }),
           );
-        }, error: (e, _) => Center(child: Text('Error: $e')
+        }, error: (e, _) => Center(child: Text(S.of(context).errorLoadingChats)
         ), loading: ()=>Center(child: CircularProgressIndicator(color: AppColors.brand1,),))
 
 

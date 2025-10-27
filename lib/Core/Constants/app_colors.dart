@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
+
+// Dark mode provider
+final isDarkModeProvider = StateProvider<bool>((ref) =>true);
 
 class AppColors {
-  // Brand Colors
+  static late WidgetRef _ref;
+
+  // Set this once at app startup in main()
+  static void setRef(WidgetRef ref) => _ref = ref;
+
+  // Internal helper to check dark mode
+  static bool get _isDark => _ref.read(isDarkModeProvider);
+
+  // Brand Colors (normal constants)
   static const Color brand1 = Color(0xFF475BFF);
   static const Color brand2 = Color(0xFF2639E6);
   static const Color brand3 = Color(0xFF919BFF);
@@ -12,9 +25,9 @@ class AppColors {
   static const Color brand8 = Color(0xFFF7F7FE);
   static const Color brand9 = Color(0xFFFAFAFE);
 
-  // Secondary Colors
+  // Secondary Colors (normal constants)
   static const Color secondary1 = Color(0xFFF58E2E);
-  static const Color secondary2 = Color(0xFFF78012); // Hex corrected below
+  static const Color secondary2 = Color(0xFFF78012);
   static const Color secondary3 = Color(0xFFF9BB82);
   static const Color secondary4 = Color(0xFFFBD6B4);
   static const Color secondary5 = Color(0xFFFDE602);
@@ -23,42 +36,44 @@ class AppColors {
   static const Color secondary8 = Color(0xFFFFFAF5);
   static const Color secondary9 = Color(0xFFFEEFC9);
 
-
-  // Black & White Colors
-  static const Color black1 = Color(0xFF161616);
+  // Black & White (white2 and black1 are dynamic)
+  static Color get black1 => !_isDark ? const Color(0xFFF9F9F9) : const Color(0xFF161616);
   static const Color black2 = Color(0xFF202020);
+  static const Color black3 = Color(0xFF1E1E1E);
 
-  static const Color black3=Color(0xFF1E1E1E);
-  static const Color grey0 = Color(0x87737373);
+  static  Color grey0 = Color(0x87737373);
   static const Color grey1 = Color(0xFF737373);
-  static const Color grey2 = Color(0xFFABABAB);
-  static const Color grey3 = Color(0xFFCDCDCD);
-  static const Color grey4 = Color(0xFFE1E1E1);
-  static const Color grey5 = Color(0xFFEDEDED);
-  static const Color grey6 = Color(0xFFF0F0F0);
-  static const Color white = Color(0xFFFFFFFF);
-  static const Color white2=Color(0xFFF9F9F9);
 
-  // Gradients (example with LinearGradient)
+  static  Color grey2 = Color(0xFFABABAB);
+  static  Color grey3 = Color(0xFFCDCDCD);
+  static Color grey4 = Color(0xFFE1E1E1);
+  static  Color grey5 = Color(0xFFEDEDED);
+  static  Color grey6 = Color(0xFFF0F0F0);
+
+  static const Color white = Color(0xFFFFFFFF);
+  static Color get white2 => !_isDark ? const Color(0xFF161616) : const Color(0xFFF9F9F9);
+
+  // Gradients
   static const LinearGradient gradientBlue = LinearGradient(
-    colors: [Color(0xFF475BFF), Color(0xFF2639E6)],
+    colors: [brand1, brand2],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
   static const LinearGradient gradientOrange = LinearGradient(
-    colors: [Color(0xFFFF582E), Color(0xFFFF78012)], // corrected hex below
+    colors: [secondary1, secondary2],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
+
   static const LinearGradient gradientOrange1 = LinearGradient(
-    colors: [Color(0xFFFF78012),Color(0xFFFF582E), ], // corrected hex below
+    colors: [secondary2, secondary1],
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
   );
 
   static const LinearGradient gradientMixed = LinearGradient(
-    colors: [Color(0xFFF58E2E),Color(0xFF475BFF) ],
+    colors: [secondary1, brand1],
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
   );

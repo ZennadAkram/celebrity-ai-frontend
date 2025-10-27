@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../generated/l10n.dart';
 import '../providers/profile_provider.dart';
 import 'edit_profile_page.dart';
 class ProfilePage extends ConsumerWidget {
@@ -50,7 +51,7 @@ class ProfilePage extends ConsumerWidget {
               fontSize: 65.sp
           ),),
           
-          Text('UID:${user.id}',style: TextStyle(
+          Text('${S.of(context).uid}:${user.id}',style: TextStyle(
               color: AppColors.white2,
           
               fontSize: 35.sp
@@ -84,7 +85,7 @@ class ProfilePage extends ConsumerWidget {
           children: [
           
           
-            Text("Edit Profile",style: TextStyle(color: AppColors.white2,fontSize: 50.sp),),
+            Text(S.of(context).editProfile,style: TextStyle(color: AppColors.white2,fontSize: 50.sp),),
             SizedBox(width: 0.01.sh,),
             Icon(Icons.edit,color: AppColors.white2,size: 60.r,),
           ],
@@ -94,7 +95,9 @@ class ProfilePage extends ConsumerWidget {
                 SizedBox(height: 0.04.sh,),
                 Container(
           width: double.infinity,
-          height: 0.09.sh,
+          constraints: BoxConstraints(
+            minHeight:0.09.sh,
+          ),
           padding: EdgeInsets.all(35.r),
           decoration: BoxDecoration(
                  gradient: AppColors.gradientMixed,
@@ -111,13 +114,13 @@ class ProfilePage extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Character.AI Premium',style: TextStyle(
+                    Text(S.of(context).characterAIPremium,style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 50.sp,
                       color: AppColors.white2
                     ),),
                     SizedBox(height: 0.01.sh,),
-                    Text('Get Character.AI Premium to enjoy all the benefit!',style: TextStyle(
+                    Text(S.of(context).getPremiumBenefit,style: TextStyle(
           
                         fontSize: 30.sp,
                         color: AppColors.white2
@@ -171,7 +174,7 @@ class ProfilePage extends ConsumerWidget {
                children: [
                  SvgPicture.asset('images/svg/pref.svg',height: 70.h,width: 70.h,),
                  SizedBox(width: 0.04.sw,),
-                 Text('User Preferences',style: TextStyle(
+                 Text(S.of(context).userPreferences,style: TextStyle(
                    color: AppColors.white2,
                    fontSize: 40.sp
                  ),)
@@ -218,7 +221,7 @@ class ProfilePage extends ConsumerWidget {
                 children: [
                   SvgPicture.asset('images/svg/about.svg',height: 70.h,width: 70.h,),
                   SizedBox(width: 0.04.sw,),
-                  Text('About Character.AI',style: TextStyle(
+                  Text(S.of(context).aboutCharacterAI,style: TextStyle(
                       color: AppColors.white2,
                       fontSize: 40.sp
                   ),)
@@ -242,7 +245,7 @@ class ProfilePage extends ConsumerWidget {
                 children: [
                   SvgPicture.asset('images/svg/follow.svg',height: 70.h,width: 70.h,),
                   SizedBox(width: 0.04.sw,),
-                  Text('Follow on Social Media',style: TextStyle(
+                  Text(S.of(context).followOnSocialMedia,style: TextStyle(
                       color: AppColors.white2,
                       fontSize: 40.sp
                   ),)
@@ -266,7 +269,7 @@ class ProfilePage extends ConsumerWidget {
                 children: [
                   SvgPicture.asset('images/svg/terms.svg',height: 70.h,width: 70.h,),
                   SizedBox(width: 0.04.sw,),
-                  Text('Term & Conditions',style: TextStyle(
+                  Text(S.of(context).termsConditions,style: TextStyle(
                       color: AppColors.white2,
                       fontSize: 40.sp
                   ),)
@@ -290,7 +293,7 @@ class ProfilePage extends ConsumerWidget {
                 children: [
                   SvgPicture.asset('images/svg/privacy.svg',height: 70.h,width: 70.h,),
                   SizedBox(width: 0.04.sw,),
-                  Text('Privacy Policy',style: TextStyle(
+                  Text(S.of(context).privacyPolicy,style: TextStyle(
                       color: AppColors.white2,
                       fontSize: 40.sp
                   ),)
@@ -314,7 +317,7 @@ class ProfilePage extends ConsumerWidget {
                 children: [
                   SvgPicture.asset('images/svg/feedback.svg',height: 70.h,width: 70.h,),
                   SizedBox(width: 0.04.sw,),
-                  Text('Feedback',style: TextStyle(
+                  Text(S.of(context).feedback,style: TextStyle(
                       color: AppColors.white2,
                       fontSize: 40.sp
                   ),)
@@ -332,7 +335,7 @@ class ProfilePage extends ConsumerWidget {
                       color: AppColors.brand1,
                       width: 0.5
                     )
-                  ) ,child: Text('Logout',style: TextStyle(
+                  ) ,child: Text(S.of(context).logout,style: TextStyle(
                     color: AppColors.brand1,
                     fontSize: 40.sp
                   ),)),

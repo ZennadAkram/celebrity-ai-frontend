@@ -3,6 +3,8 @@ import 'package:chat_with_charachter/Core/Constants/app_colors.dart';
 import 'package:chat_with_charachter/Features/Celebrity/domain/entities/celebrity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../generated/l10n.dart';
 class CharacterCard extends StatelessWidget {
   final CelebrityEntity entity;
   const CharacterCard({super.key, required this.entity});
@@ -21,7 +23,7 @@ class CharacterCard extends StatelessWidget {
             color: AppColors.black1,
         
               image: DecorationImage(
-                opacity: 0.8,
+
         
                 image: CachedNetworkImageProvider(entity.imageUrl ?? "",
         
@@ -37,7 +39,7 @@ class CharacterCard extends StatelessWidget {
                   left: 0,
                   bottom: 100.h,
                   child:Text(entity.name,style: TextStyle(
-                color: AppColors.white2,
+                color: Colors.white,
                 fontWeight: FontWeight.w500,
                     fontSize: 50.sp
         
@@ -45,8 +47,8 @@ class CharacterCard extends StatelessWidget {
               Positioned(
                   left: 0,
                   bottom: 50.h,
-                  child:Text("Create your character with us!",style: TextStyle(
-                      color: AppColors.grey3,
+                  child:Text(S.of(context).createYourCharacterWithUs,style: TextStyle(
+                      color: Colors.white,
         
                       fontSize: 40.sp
         

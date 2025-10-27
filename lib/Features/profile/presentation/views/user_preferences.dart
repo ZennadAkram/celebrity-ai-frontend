@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../Core/Constants/app_colors.dart';
 import '../../../../Core/Providers/locale_provider.dart';
+import 'package:chat_with_charachter/generated/l10n.dart';
+
+import '../../../../Core/Services/preferences_service.dart';
 
 class UserPreferences extends ConsumerStatefulWidget {
   const UserPreferences({super.key});
@@ -12,13 +15,51 @@ class UserPreferences extends ConsumerStatefulWidget {
 }
 
 class _UserPreferencesState extends ConsumerState<UserPreferences> {
+  // Remove the nullable types since we'll use the provider values directly
   String selectedLanguage = 'English';
   String selectedAudioLanguage = 'English (UK)';
   String selectedTheme = 'Dark';
 
+  final PreferencesService _prefsService = PreferencesService();
+
   final languages = ['English', 'French', 'العربية'];
   final audioLanguages = ['English (UK)', 'English (US)', 'French (FR)', 'العربية'];
-  final themes = ['Dark', 'Light', 'System'];
+  final themes = ['Dark', 'Light'];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCurrentPreferences();
+  }
+
+  void _loadCurrentPreferences() {
+    // Get current values from providers instead of SharedPreferences
+    final currentLocale = ref.read(localeProvider);
+    final currentTheme = ref.read(isDarkModeProvider);
+
+    setState(() {
+      // Set language based on current locale
+      switch (currentLocale.languageCode) {
+        case 'en':
+          selectedLanguage = 'English';
+          break;
+        case 'fr':
+          selectedLanguage = 'French';
+          break;
+        case 'ar':
+          selectedLanguage = 'العربية';
+          break;
+        default:
+          selectedLanguage = 'English';
+      }
+
+      // Set theme based on current theme
+      selectedTheme = currentTheme ? 'Dark' : 'Light';
+
+      // Audio language defaults
+      selectedAudioLanguage = 'English (UK)';
+    });
+  }
 
   Widget _prefDropdown({
     required String title,
@@ -46,13 +87,12 @@ class _UserPreferencesState extends ConsumerState<UserPreferences> {
                 title,
                 style: TextStyle(color: AppColors.white2, fontSize: 48.sp),
               ),
-
               DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   dropdownColor: AppColors.black1,
                   value: value,
                   icon: AnimatedRotation(
-                    turns: isOpen ? 0.5 : 0, // rotates 180° down
+                    turns: isOpen ? 0.5 : 0,
                     duration: const Duration(milliseconds: 200),
                     child: Icon(Icons.arrow_forward_ios,
                         color: AppColors.white2, size: 50.sp),
@@ -60,11 +100,10 @@ class _UserPreferencesState extends ConsumerState<UserPreferences> {
                   style: TextStyle(color: AppColors.white2, fontSize: 48.sp),
                   borderRadius: BorderRadius.circular(12),
                   onTap: () {
-                    // Toggle arrow when dropdown opens
                     setInnerState(() => isOpen = !isOpen);
                   },
                   onChanged: (val) {
-                    setInnerState(() => isOpen = false); // reset arrow when closed
+                    setInnerState(() => isOpen = false);
                     onChanged(val);
                   },
                   items: options.map((option) {
@@ -121,7 +160,6 @@ class _UserPreferencesState extends ConsumerState<UserPreferences> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 40.r),
@@ -132,10 +170,10 @@ class _UserPreferencesState extends ConsumerState<UserPreferences> {
                 SizedBox(height: 0.02.sh),
                 Row(
                   children: [
-                    const BackButton(color: AppColors.white2),
+                    BackButton(color: AppColors.white2),
                     SizedBox(width: 0.02.sw),
                     Text(
-                      'User Preferences',
+                      S.of(context).userPreferences,
                       style: TextStyle(
                         color: AppColors.white2,
                         fontSize: 50.sp,
@@ -147,31 +185,62 @@ class _UserPreferencesState extends ConsumerState<UserPreferences> {
                 ),
                 SizedBox(height: 0.05.sh),
                 _prefDropdown(
-                  title: 'Language',
+                  title: S.of(context).language,
                   value: selectedLanguage,
                   options: languages,
-                  onChanged: (val) {
-                      setState(() => selectedLanguage = val!);
-                    if (val == 'English') {
-          ref.read(localeProvider.notifier).changeLocale(const Locale('en'));
-          } else if (val == 'French') {
-        ref.read(localeProvider.notifier).changeLocale(const Locale('fr'));
-        } else if (val == 'العربية') {
-      ref.read(localeProvider.notifier).changeLocale(const Locale('ar'));
-      }},
+                  onChanged: (val) async {
+                    if (val != null) {
+                      setState(() => selectedLanguage = val);
+
+                      String languageCode = 'en';
+                      switch (val) {
+                        case 'English':
+                          languageCode = 'en';
+                          break;
+                        case 'French':
+                          languageCode = 'fr';
+                          break;
+                        case 'العربية':
+                          languageCode = 'ar';
+                          break;
+                      }
+
+                      // Save to shared preferences
+                      await _prefsService.saveLanguage(languageCode);
+
+                      // Update app locale - this will trigger a rebuild of the entire app
+                      ref.read(localeProvider.notifier).changeLocale(Locale(languageCode));
+                    }
+                  },
                 ),
                 _prefDropdown(
-                  title: 'Audio Language',
+                  title: S.of(context).audioLanguage,
                   value: selectedAudioLanguage,
                   options: audioLanguages,
-                  onChanged: (val) =>
-                      setState(() => selectedAudioLanguage = val!),
+                  onChanged: (val) async {
+                    if (val != null) {
+                      setState(() => selectedAudioLanguage = val);
+                      // You can add audio language saving here if needed
+                    }
+                  },
                 ),
                 _prefDropdown(
-                  title: 'Theme Display',
+                  title: S.of(context).themeDisplay,
                   value: selectedTheme,
                   options: themes,
-                  onChanged: (val) => setState(() => selectedTheme = val!),
+                  onChanged: (val) async {
+                    if (val != null) {
+                      setState(() => selectedTheme = val);
+
+                      bool isDarkMode = val == 'Dark';
+
+                      // Save to shared preferences
+                      await _prefsService.saveTheme(isDarkMode);
+
+                      // Update app theme - this will trigger a rebuild of the entire app
+                      ref.read(isDarkModeProvider.notifier).state = isDarkMode;
+                    }
+                  },
                 ),
                 Container(
                   width: double.infinity,
@@ -182,9 +251,9 @@ class _UserPreferencesState extends ConsumerState<UserPreferences> {
                     ),
                   ),
                 ),
-                _prefTile(title: 'Account Privacy', onTap: () {}),
-                _prefTile(title: 'Deactivate Account', showArrow: false),
-                _prefTile(title: 'Delete Account', showArrow: false),
+                _prefTile(title: S.of(context).accountPrivacy, onTap: () {}),
+                _prefTile(title: S.of(context).deactivateAccount, showArrow: false),
+                _prefTile(title: S.of(context).deleteAccount, showArrow: false),
               ],
             ),
           ),

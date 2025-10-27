@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../Shared/Global_Widgets/chip_choice.dart';
+import '../../../../generated/l10n.dart';
 import '../widgets/search.dart';
 
 import '../providers/celebrity_providers.dart';
@@ -21,12 +22,12 @@ class Explore extends ConsumerWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Explore',style: TextStyle(
+            Text(S.of(context).exploreTitle,style: TextStyle(
               fontSize: 60.sp,
               color: AppColors.white2
             ),),
             IconButton(onPressed: (){
-              showSearch(context: context, delegate: MySearchDelegate(['All','Movies','Series','Cartoons','Anime','Documentary'],));
+              showSearch(context: context, delegate: MySearchDelegate([S.of(context).allCategory,S.of(context).moviesCategory,S.of(context).seriesCategory,S.of(context).cartoonsCategory,S.of(context).animeCategory,S.of(context).documentaryCategory],));
 
             }, icon: Icon(Icons.search,
               color: AppColors.white2,
@@ -36,9 +37,9 @@ class Explore extends ConsumerWidget {
         ),
         SizedBox(height: 0.03.sh,),
         SizedBox(
-          height: 0.05.sh,
+          height: 0.055.sh,
           child: ChipChoice(
-            choices: const ['All','Movies','Series','Cartoons','Anime','Documentary'],
+            choices: ['All','Movies','Series','Cartoons','Anime','Documentary'],
             onSelected: (choice){
               if(choice!='All'){
                 ref.read(viewModelProvider.notifier).getCelebrities(choice,null);
@@ -59,7 +60,7 @@ class Explore extends ConsumerWidget {
              return CharacterCard(entity: celebrities[index],);
           });
           } , error: (error, _) => Center(
-            child: Text('Error: $error'),
+            child: Text(S.of(context).failedToLoadCelebrities),
           ), loading: ()=>Center(child: CircularProgressIndicator(color: AppColors.brand1,),)),
         )
       ],

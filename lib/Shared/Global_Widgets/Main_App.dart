@@ -32,7 +32,7 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+
       resizeToAvoidBottomInset: true,
       body: SafeArea(
         // 👇 Smooth animation between pages

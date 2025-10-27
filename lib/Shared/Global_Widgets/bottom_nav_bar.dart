@@ -2,6 +2,8 @@ import 'package:chat_with_charachter/Core/Constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../generated/l10n.dart';
+
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
   final Function(int) onTap;
@@ -28,11 +30,11 @@ class CustomBottomNavBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildNavItem(Icons.explore, "Explore", 0),
-          _buildNavItem(Icons.chat_bubble_outline, "Chat", 1),
+          _buildNavItem(Icons.explore, S.of(context).exploreTitle, 0),
+          _buildNavItem(Icons.chat_bubble_outline, S.of(context).chatsTitle, 1),
           _buildCenterButton(context),
-          _buildNavItem(Icons.folder_copy_outlined, "Library", 3),
-          _buildNavItem(Icons.person_outline, "Profile", 4),
+          _buildNavItem(Icons.folder_copy_outlined, S.of(context).library, 3),
+          _buildNavItem(Icons.person_outline, S.of(context).profileTitle, 4),
         ],
       ),
     );
@@ -73,7 +75,7 @@ class CustomBottomNavBar extends StatelessWidget {
             height: 150.h,
             width: 150.h,
             margin: EdgeInsets.only(top: 13.r),
-            decoration: const BoxDecoration(
+            decoration:  BoxDecoration(
               shape: BoxShape.circle,
               gradient: AppColors.gradientMixed
             ),
@@ -81,7 +83,7 @@ class CustomBottomNavBar extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            'Create',
+            S.of(context).create,
             style: TextStyle(
               color: AppColors.grey2,
               fontSize: 12,

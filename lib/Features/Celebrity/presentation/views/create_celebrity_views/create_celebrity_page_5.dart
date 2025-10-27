@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../generated/l10n.dart';
 import '../../providers/create_celebrity_providers/avatar_select_provider.dart';
 class CreateCelebrityPage5 extends ConsumerWidget {
   const CreateCelebrityPage5({super.key});
@@ -12,7 +13,7 @@ class CreateCelebrityPage5 extends ConsumerWidget {
     final selectedColor = ref.watch(colorSelectedProvider);
     final selectedImage=ref.watch(imageSelectorProvider);
     return Scaffold(
-      backgroundColor: Colors.black,
+
       body: SafeArea(child:
 
       Column(
@@ -44,9 +45,9 @@ class CreateCelebrityPage5 extends ConsumerWidget {
                 child:ClipOval(
 
                   child: Image.file(selectedImage!,
-                    opacity: AlwaysStoppedAnimation(0.8),
-                    height: 150.h,
-                    width: 150.h,
+
+                    height: 0.2.sw,
+                    width: 0.2.sh,
                     fit: BoxFit.cover,
                   ),
 
@@ -59,13 +60,13 @@ class CreateCelebrityPage5 extends ConsumerWidget {
                   right: 0,   // <-- Add this
                   child: Container(
                     height: 100.h,
-                    color: Colors.black,
+
                   ),
                 ),
           ]
           )
           ),
-          Text('Character successfully created',style: TextStyle(
+          Text(S.of(context).characterCreatedTitle,style: TextStyle(
             fontSize: 70.sp,
             fontWeight: FontWeight.bold,
             foreground: Paint()
@@ -76,7 +77,7 @@ class CreateCelebrityPage5 extends ConsumerWidget {
           SizedBox(height: 0.02.sh,),
           SizedBox(
             width: 0.7.sw,
-            child: Text('Your character has been successfully created',
+            child: Text(S.of(context).characterCreatedSubtitle,
               textAlign: TextAlign.center,
               style: TextStyle(
               color: AppColors.white2,
@@ -90,7 +91,7 @@ class CreateCelebrityPage5 extends ConsumerWidget {
             child: ElevatedButton(onPressed: (){},style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.black1,
               padding: EdgeInsets.symmetric(vertical: 50.r)
-            ) ,child:Text('View on Library',style: TextStyle(
+            ) ,child:Text(S.of(context).viewOnLibrary,style: TextStyle(
               color: AppColors.white2,
               fontSize: 40.sp
             ),) ),

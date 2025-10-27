@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../generated/l10n.dart';
 import '../../providers/celebrity_providers.dart';
 import '../../widgets/library/library_celebrity_card.dart';
 class LibraryPage extends ConsumerWidget {
@@ -22,7 +23,7 @@ class LibraryPage extends ConsumerWidget {
           Padding(
             padding:  EdgeInsets.symmetric(horizontal: 50.r),
             child: Text(
-              'Library',
+              S.of(context).library,
               style: TextStyle(
                 color: AppColors.white2,
                 fontSize: 60.sp,
@@ -52,10 +53,10 @@ class LibraryPage extends ConsumerWidget {
               indicatorColor: AppColors.brand1,
               indicatorWeight: 3,
               indicatorSize: TabBarIndicatorSize.tab, // 👈 FIXED
-              dividerColor: Colors.black,
+              dividerColor: Colors.transparent,
               tabs: [
-            Tab(text: "Public",),
-            Tab(text: 'Private',)
+            Tab(text:S.of(context).publicTab,),
+            Tab(text: S.of(context).privateTab,)
           ]),
           SizedBox(height: 0.05.sh,),
           Expanded(
@@ -83,7 +84,7 @@ class LibraryPage extends ConsumerWidget {
                     ),
                   ),
                       error:(e,st)=>Center(
-                        child: Text('Failed to load celebrities',style: TextStyle(
+                        child: Text(S.of(context).failedToLoadCelebrities,style: TextStyle(
                           fontSize: 60.sp,
                           fontWeight: FontWeight.w600,
                           color: AppColors.white2
@@ -116,7 +117,7 @@ class LibraryPage extends ConsumerWidget {
                       ),
                     ),
                         error:(e,st)=>Center(
-                          child: Text('Failed to load celebrities',style: TextStyle(
+                          child: Text(S.of(context).failedToLoadCelebrities,style: TextStyle(
                               fontSize: 60.sp,
                               fontWeight: FontWeight.w600,
                               color: AppColors.white2

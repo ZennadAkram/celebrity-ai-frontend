@@ -18,13 +18,18 @@ class ChipChoice extends ConsumerWidget {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context,index){
       return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4.0),
-        child: ElevatedButton(onPressed: (){
+        padding: const EdgeInsets.symmetric(horizontal: 4.0,vertical: 4),
+        child: ElevatedButton(
+
+          onPressed: (){
           ref.read(choiceProvider.notifier).state=index;
           onSelected(choices[index]);
 
         },
-        style: ElevatedButton.styleFrom(backgroundColor: provider==index ? AppColors.brand1:AppColors.black1 ),
+        style: ElevatedButton.styleFrom(
+             // <— removes shadow
+
+            backgroundColor: provider==index ? AppColors.brand1:AppColors.black1 ),
           child: Text(choices[index],style: TextStyle(
           color: AppColors.white2,
           fontSize: 45.sp

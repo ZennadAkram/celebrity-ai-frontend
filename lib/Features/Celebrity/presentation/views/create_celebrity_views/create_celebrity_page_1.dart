@@ -3,6 +3,8 @@ import 'package:chat_with_charachter/Features/Celebrity/presentation/views/creat
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../../../generated/l10n.dart';
 class CreateCelebrityPage1 extends StatelessWidget {
   const CreateCelebrityPage1({super.key});
 
@@ -46,8 +48,8 @@ class CreateCelebrityPage1 extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.only(left: 40.r,top: 50.r),
                   height: 200.h,
-                  color: Colors.black,
-                  child: Text('Create Character',style: TextStyle(
+
+                  child: Text(S.of(context).createCharacterTitle,style: TextStyle(
                     color: AppColors.white2,
                     fontSize: 60.sp
                   ),),
@@ -81,7 +83,7 @@ class CreateCelebrityPage1 extends StatelessWidget {
             SizedBox(
               width: 50.w,
             ),
-            Text('Create Your Character',style: TextStyle(
+            Text(S.of(context).createYourCharacterButton,style: TextStyle(
               fontSize: 50.sp,
               fontWeight: FontWeight.w600,
               color: AppColors.white2

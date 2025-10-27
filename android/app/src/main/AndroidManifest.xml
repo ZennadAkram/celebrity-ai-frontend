@@ -18,8 +18,13 @@
 
     <application
         android:name="${applicationName}"
-        android:label="chat_with_charachter"
+        android:label="Character.AI"
         android:icon="@mipmap/ic_launcher">
+
+        <!-- ✅ Enable Impeller Renderer -->
+        <meta-data
+            android:name="io.flutter.embedding.android.EnableImpeller"
+            android:value="true" />
 
         <!-- ✅ Facebook SDK Config -->
         <meta-data

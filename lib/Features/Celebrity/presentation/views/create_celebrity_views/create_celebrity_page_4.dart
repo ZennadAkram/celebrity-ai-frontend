@@ -9,6 +9,7 @@ import 'dart:io';
 import '../../../../../Core/Constants/app_colors.dart';
 import '../../../../../Core/Services/file_helper.dart';
 import '../../../../../Core/Services/image_picker.dart';
+import '../../../../../generated/l10n.dart';
 import '../../../domain/entities/celebrity.dart';
 import '../../providers/celebrity_providers.dart';
 import '../../providers/create_celebrity_providers/avatar_select_provider.dart';
@@ -145,7 +146,7 @@ class CreateCelebrityPage4 extends ConsumerWidget {
     final bgSelect = ref.read(avatarBgSelectProvider.notifier);
 
     return Scaffold(
-      backgroundColor: Colors.black,
+
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,7 +154,7 @@ class CreateCelebrityPage4 extends ConsumerWidget {
             Container(
               padding: EdgeInsets.only(top: 50.r, left: 40.r, right: 40.r),
               height: 200.h,
-              color: Colors.black,
+
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -166,7 +167,7 @@ class CreateCelebrityPage4 extends ConsumerWidget {
                     color: AppColors.white2,
                   ),
                   Text(
-                    'Create Character',
+                    S.of(context).createCharacterTitle,
                     style: TextStyle(
                       color: AppColors.white2,
                       fontSize: 60.sp,
@@ -179,7 +180,7 @@ class CreateCelebrityPage4 extends ConsumerWidget {
                         imageSelector.state=file;
                       }
                     },
-                    icon: SvgPicture.asset('images/svg/scann.svg'),
+                    icon: SvgPicture.asset('images/svg/scann.svg',color: AppColors.white2,),
                   ),
                 ],
               ),
@@ -194,7 +195,7 @@ class CreateCelebrityPage4 extends ConsumerWidget {
                   // For now, I'm adding a placeholder
 
                   child:selectedImage == null ?
-                  Center(child:  Text('No image selected.',style: TextStyle(
+                  Center(child:  Text(S.of(context).noImageSelected,style: TextStyle(
                     color: AppColors.white2,
                     fontSize: 50.sp
                   ),),)
@@ -256,7 +257,7 @@ class CreateCelebrityPage4 extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Choose Avatar',
+                    S.of(context).chooseAvatar,
                     style: TextStyle(
                       color: AppColors.white2,
                       fontSize: 50.sp,
@@ -301,7 +302,7 @@ class CreateCelebrityPage4 extends ConsumerWidget {
                                     border: Border.all(
                                       color: selected == index
                                           ? AppColors.secondary1
-                                          : Colors.black,
+                                          : AppColors.black1,
                                       width: selected == index ? 2 : 1,
                                     ),
                                   ),
@@ -323,7 +324,7 @@ class CreateCelebrityPage4 extends ConsumerWidget {
                   ),
                   SizedBox(height: 0.03.sh),
                   Text(
-                    'Choose Background',
+                    S.of(context).chooseBackground,
                     style: TextStyle(
                       color: AppColors.white2,
                       fontSize: 50.sp,
@@ -389,7 +390,7 @@ class CreateCelebrityPage4 extends ConsumerWidget {
                             EdgeInsets.symmetric(vertical: 50.r),
                           ))
 
-                        , child:Text("Create Celebrity",style: TextStyle(
+                        , child:Text(S.of(context).createCelebrity,style: TextStyle(
                             fontSize: 50.sp,
                             fontWeight: FontWeight.w600,
                             color: AppColors.white2

@@ -1,5 +1,91 @@
 {
   "@@locale": "fr",
-  "welcome": "Bienvenue",
-  "hello": "Bonjour"
+  "userPreferences": "Préférences utilisateur",
+  "language": "Langue",
+  "audioLanguage": "Langue audio",
+  "themeDisplay": "Affichage du thème",
+  "accountPrivacy": "Confidentialité du compte",
+  "deactivateAccount": "Désactiver le compte",
+  "deleteAccount": "Supprimer le compte",
+
+  "sixtyOff": "60% DE RÉDUCTION",
+  "premiumTitle": "Obtenez Character.AI Premium pour profiter de tous les avantages !",
+  "premiumSubtitle": "Abonnez-vous à Character.AI Premium et bénéficiez d’un accès illimité à tous nos modèles et voix !",
+  "startNow": "Commencer maintenant",
+  "termsConditions": "Termes et conditions",
+  "month1": "1 mois",
+  "month3": "3 mois",
+  "month12": "12 mois",
+
+  "editProfile": "Modifier le profil",
+  "characterAIPremium": "Character.AI Premium",
+  "getPremiumBenefit": "Obtenez Character.AI Premium pour profiter de tous les avantages !",
+  "aboutCharacterAI": "À propos de Character.AI",
+  "followOnSocialMedia": "Suivez-nous sur les réseaux sociaux",
+  "privacyPolicy": "Politique de confidentialité",
+  "feedback": "Retour d’expérience",
+  "logout": "Déconnexion",
+  "uid": "Identifiant",
+  "username": "Nom d’utilisateur",
+  "email": "E-mail",
+  "saveChanges": "Enregistrer les modifications",
+
+  "library": "Bibliothèque",
+  "publicTab": "Public",
+  "privateTab": "Privé",
+  "failedToLoadCelebrities": "Échec du chargement des célébrités",
+
+  "createCharacterTitle": "Créer un personnage",
+  "createYourCharacterButton": "Crée ton personnage",
+  "characterNameHint": "Nom du personnage",
+  "chooseGenderHint": "Choisir le genre",
+  "male": "Homme",
+  "female": "Femme",
+  "characterInfoLabel": "Informations du personnage",
+  "characterDescriptionHint": "Décris ton personnage ici",
+  "greetingLabel": "Salutation",
+  "greetingHint": "Écris ta salutation ici",
+  "visibilityLabel": "Visibilité",
+  "publicOption": "Public",
+  "privateOption": "Privé",
+  "advancedOptional": "Avancé (optionnel)",
+  "nextButton": "Suivant",
+
+  "appearanceDescriptionLabel": "Description de l’apparence",
+  "appearanceDescriptionHint": "Décris ton apparence ici",
+  "characterCategoryLabel": "Catégorie du personnage",
+
+  "noImageSelected": "Aucune image sélectionnée.",
+  "chooseAvatar": "Choisir un avatar",
+  "chooseBackground": "Choisir un arrière-plan",
+  "createCelebrity": "Créer une célébrité",
+
+  "characterCreatedTitle": "Personnage créé avec succès",
+  "characterCreatedSubtitle": "Ton personnage a été créé avec succès",
+  "viewOnLibrary": "Voir dans la bibliothèque",
+
+  "exploreTitle": "Explorer",
+  "searchHint": "Recherche",
+  "allCategory": "Tout",
+  "moviesCategory": "Films",
+  "seriesCategory": "Séries",
+  "cartoonsCategory": "Dessins animés",
+  "animeCategory": "Animé",
+  "documentaryCategory": "Documentaires",
+
+  "errorLabel": "Erreur",
+  "createYourCharacterWithUs": "Crée ton personnage avec nous !",
+  "chatsTitle": "Discussions",
+  "errorLoadingChats": "Erreur lors du chargement des discussions",
+  "errorLoadingMessages": "Erreur lors du chargement des messages",
+  "retryButton": "Réessayer",
+  "loadingMessages": "Chargement des messages...",
+  "noMessagesYet": "Aucun message pour le moment",
+  "typeMessageHint": "Écrivez un message...",
+  "profileTitle": "Profil",
+  "create": "Créer"
+
+
+
+
 }

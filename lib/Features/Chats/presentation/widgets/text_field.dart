@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../generated/l10n.dart';
 import '../../domain/entities/stored_message_entity.dart';
 import '../providers/chat_provider.dart';
 import '../providers/chat_session_provider.dart';
@@ -15,6 +16,8 @@ class TextFieldChat extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     final vm = ref.read(speechViewModelProvider.notifier);
     final isLoading = ref.watch(chatViewModelProvider).isLoading;
     final viewModel = ref.read(chatViewModelProvider.notifier);
@@ -38,7 +41,7 @@ padding: EdgeInsets.symmetric(horizontal: 40.r),
              children: [
                Align(
 
-                   child: IconButton(onPressed: (){},style: IconButton.styleFrom(backgroundColor: AppColors.grey0) ,icon:Icon(Icons.graphic_eq_outlined,size: 30,color: Colors.white,))),
+                   child: IconButton(onPressed: (){},style: IconButton.styleFrom(backgroundColor:isDark? AppColors.grey0:Colors.black) ,icon:Icon(Icons.graphic_eq_outlined,size: 30,color: Colors.white,))),
                SizedBox(width: 0.03.sw,),
                Expanded(child:speechState.isListening
                    ? Align(
@@ -59,7 +62,7 @@ padding: EdgeInsets.symmetric(horizontal: 40.r),
                  },
                  cursorColor: AppColors.grey1,
                     style: TextStyle(
-                      color: Colors.white
+                      color: AppColors.white2
                     ),
 
 
@@ -70,11 +73,11 @@ padding: EdgeInsets.symmetric(horizontal: 40.r),
                      ),
                    filled: true,
 
-                   fillColor: AppColors.grey0,
+                   fillColor:isDark? AppColors.grey0:AppColors.grey6,
                    suffixIcon:  IconButton(
                      icon: Icon(
                        ref.watch(speechViewModelProvider).isListening ? Icons.mic : Icons.mic_none,
-                       color: Colors.white,
+                       color: AppColors.white2,
                      ),
                      onPressed: () {
                        final viewModel = ref.read(speechViewModelProvider.notifier);
@@ -86,9 +89,9 @@ padding: EdgeInsets.symmetric(horizontal: 40.r),
                      },
                    ),
 
-                     hintText: "type your chat",
+                     hintText: S.of(context).typeMessageHint,
                    hintStyle: TextStyle(
-                     color: Colors.white
+                     color: AppColors.white2
                  ),
                    enabledBorder: OutlineInputBorder(
                      borderRadius: BorderRadius.circular(100),
