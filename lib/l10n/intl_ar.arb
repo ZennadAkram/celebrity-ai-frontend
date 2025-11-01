@@ -83,7 +83,19 @@
   "noMessagesYet": "لا توجد رسائل بعد",
   "typeMessageHint": "اكتب رسالة...",
   "profileTitle": "الملف الشخصي",
-  "create": "إنشاء"
+  "create": "إنشاء",
+  "login": "تسجيل الدخول",
+      "password": "كلمة المرور",
+      "forgotPassword": "هل نسيت كلمة المرور؟",
+      "or_login_with": "أو تسجيل الدخول بواسطة",
+      "dont_have_account": "ليس لديك حساب؟ ",
+      "register_now": "سجّل الآن",
+      "log_in": "سجّل الدخول",
+      "to_your_account":" إلى حسابك",
+      "your_account": "حسابك",
+      "register": "سجّل",
+      "by_pressing_register_you_agree_to": "بالضغط على “سجّل” فإنك توافق على"
+
 
 
 

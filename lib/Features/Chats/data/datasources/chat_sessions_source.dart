@@ -1,14 +1,15 @@
 import 'package:chat_with_charachter/Core/Network/private_dio.dart';
-import 'package:chat_with_charachter/Features/Chats/data/models/chat_session_model.dart';
+import 'package:chat_with_charachter/Core/Data/models/chat_session_model.dart';
 import 'package:chat_with_charachter/Features/Chats/data/models/stored_message_model.dart';
 import 'package:dio/dio.dart';
 
 class ChatSessionsSource{
   final Dio _dio=PrivateDio.dio;
-  Future<List<ChatSessionModel>> getChatSessions()async{
+  Future<List<ChatSessionModel>> getChatSessions(int? page)async{
     try{
       final response=await _dio.get('/chats/',queryParameters: {
-        'ordering':'-time_stamp'
+        'ordering':'-time_stamp',
+        'page':page
       });
       if(response.statusCode==200){
         List<dynamic> data=response.data['results'];
@@ -21,11 +22,12 @@ class ChatSessionsSource{
     }
 
   }
-Future<List<StoredMessageModel>> getMessagesForSession(int sessionId)async{
+Future<List<StoredMessageModel>> getMessagesForSession(int sessionId,{int? page})async{
     try{
       final response=await _dio.get('/messages/',queryParameters: {
         'session':sessionId,
-        'ordering':'-created_at'
+        'ordering':'-created_at',
+        'page':page
       });
       if(response.statusCode==200){
         List<dynamic> data=response.data['results'];

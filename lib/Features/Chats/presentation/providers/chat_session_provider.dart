@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/datasources/chat_sessions_source.dart';
-import '../../domain/entities/chat_session_entity.dart';
+import '../../../../Core/Domain/entities/chat_session_entity.dart';
 import '../../domain/entities/stored_message_entity.dart';
 import '../../domain/usecases/get_chat_session_use_case.dart';
 import '../../domain/usecases/get_messages_use_case.dart';

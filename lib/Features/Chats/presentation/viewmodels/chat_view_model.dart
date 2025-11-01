@@ -80,8 +80,9 @@ class ChatViewModel extends StateNotifier<ChatState> {
         addMessage(message);
        if(message.type!=MessageType.system){
          final storeMessagesVM = ref.read(storedMessagesViewModelProvider.notifier);
+         final sessionId = ref.read(sessionProvider);
          storeMessagesVM.saveMessage(
-             StoredMessageEntity(session: 10, sender:'ai'  , text: message.content)
+             StoredMessageEntity(session: sessionId, sender:'ai'  , text: message.content)
          );
        }
       } catch (e) {

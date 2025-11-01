@@ -4,11 +4,12 @@ import 'package:dio/dio.dart';
 
 class DataSourceCelebrity{
   final Dio _dio=PrivateDio.dio;
-  Future<List<CelebrityModel>> getCelebrities(String? category,bool? isPrivate) async{
+  Future<List<CelebrityModel>> getCelebrities(String? category,bool? isPrivate,{int? page}) async{
     try{
       final response=await _dio.get('/celebrities/',queryParameters: {
         'category_name': category,
-        'is_Private':isPrivate
+        'is_Private':isPrivate,
+        'page':page
       });
       if(response.statusCode==200){
         final List<dynamic> data=response.data["results"];

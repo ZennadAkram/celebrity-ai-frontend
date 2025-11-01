@@ -3,6 +3,10 @@ import 'package:chat_with_charachter/Core/Network/secure_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter/material.dart';
+
+import '../../../Shared/Global_Widgets/Main_App.dart';
+import '../../../main.dart';
 
 
   Future<String?> getFacebookAccessToken() async {
@@ -36,6 +40,10 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
        final savedToken = await TokenStorage.getAccessToken();
        if (savedToken == response.data['access'].toString()) {
          if (kDebugMode) print("✅ correct storage");
+         navigatorKey.currentState?.pushAndRemoveUntil(
+           MaterialPageRoute(builder: (_) =>  MainApp()),
+               (route) => false,
+         );
        } else {
          if (kDebugMode) print("❌ failed to store");
        }

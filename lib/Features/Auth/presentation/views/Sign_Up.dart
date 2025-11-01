@@ -1,9 +1,15 @@
 import 'package:chat_with_charachter/Core/Constants/app_colors.dart';
+import 'package:chat_with_charachter/Shared/Global_Widgets/Main_App.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../../Core/Network/Auth/discord_auth.dart';
+import '../../../../Core/Network/Auth/facebook_auth.dart';
+import '../../../../Core/Network/Auth/google_auth.dart';
+import '../../../../generated/l10n.dart';
+import '../../../../main.dart';
 import '../providers/providers.dart';
 class SignUp extends ConsumerWidget {
   const SignUp({super.key});
@@ -73,11 +79,11 @@ class SignUp extends ConsumerWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                      Text('Create',style: TextStyle(
+                      Text(S.of(context).create,style: TextStyle(
                         fontSize: 90.sp,
                         color: AppColors.white2
                       ),),
-                      Text('your account',style: TextStyle(
+                      Text(S.of(context).your_account,style: TextStyle(
                           fontSize: 90.sp,
                           color: AppColors.white2
                       ),),
@@ -97,6 +103,7 @@ class SignUp extends ConsumerWidget {
                                         TextFormField(
                                           controller: viewModel.email,
                                           maxLines: 1,
+                                          keyboardType: TextInputType.emailAddress,
                                           cursorColor: AppColors.white2,
                                           style: TextStyle(
                                               color: AppColors.white2
@@ -107,7 +114,7 @@ class SignUp extends ConsumerWidget {
                                                 padding: const EdgeInsets.all(12),
                                                 child: SvgPicture.asset('images/svg/email.svg'),
                                               ),
-                                              hintText: 'Email',
+                                              hintText: S.of(context).email,
                                               hintStyle: TextStyle(
                                                   color: AppColors.white2
                                               ),
@@ -141,7 +148,7 @@ class SignUp extends ConsumerWidget {
                                                 padding: const EdgeInsets.all(0),
                                                 child: Icon(Icons.account_circle_sharp)
                                               ),
-                                              hintText: 'Username',
+                                              hintText: S.of(context).username,
                                               hintStyle: TextStyle(
                                                   color: AppColors.white2
                                               ),
@@ -184,7 +191,7 @@ class SignUp extends ConsumerWidget {
                                                 padding: const EdgeInsets.all(12),
                                                 child: SvgPicture.asset('images/svg/password.svg'),
                                               ),
-                                              hintText: 'password',
+                                              hintText: S.of(context).password,
                                               hintStyle: TextStyle(
                                                   color: AppColors.white2
                                               ),
@@ -221,7 +228,7 @@ class SignUp extends ConsumerWidget {
                       height: 0.06.sh,
                       child: ElevatedButton(onPressed: ()async{
                        await viewModel.signUpUser();
-                      }, child: Text('Register',style: TextStyle(
+                      }, child: Text(S.of(context).register,style: TextStyle(
                           fontSize: 55.sp,
                           fontWeight: FontWeight.w600,
                           color: AppColors.white2
@@ -261,7 +268,7 @@ class SignUp extends ConsumerWidget {
                           ),
                         ),
                         SizedBox(width: 10,),
-                        Text('or login with',style: TextStyle(
+                        Text(S.of(context).or_login_with,style: TextStyle(
                             color: AppColors.white2,
                             fontSize: 40.sp
                         ),),
@@ -288,7 +295,7 @@ class SignUp extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         SizedBox(
-                          child: ElevatedButton(onPressed: (){}, child: Padding(
+                          child: ElevatedButton(onPressed: () async {await loginWithGoogleBackend();}, child: Padding(
                             padding: const EdgeInsets.only(top: 13,bottom: 13,left: 2,right: 2),
                             child: SvgPicture.asset('images/svg/google.svg'),
                           ),
@@ -297,7 +304,7 @@ class SignUp extends ConsumerWidget {
                           ),
                         ),
                         SizedBox(
-                          child: ElevatedButton(onPressed: (){}, child: Padding(
+                          child: ElevatedButton(onPressed: () async{await loginWithDiscord();}, child: Padding(
                             padding: const EdgeInsets.only(top: 13,bottom: 13,left: 2,right: 2),
                             child: SvgPicture.asset('images/svg/discord.svg',color: Colors.white,),
                           ),
@@ -306,7 +313,7 @@ class SignUp extends ConsumerWidget {
                           ),
                         ),
                         SizedBox(
-                          child: ElevatedButton(onPressed: (){}, child: Padding(
+                          child: ElevatedButton(onPressed: () async{await loginWithFacebookBackend();}, child: Padding(
                             padding: const EdgeInsets.only(top: 13,bottom: 13,left: 2,right: 2),
                             child: SvgPicture.asset('images/svg/meta.svg'),
                           ),
@@ -320,7 +327,7 @@ class SignUp extends ConsumerWidget {
                     Column(
                          crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text('By pressing “Register” you will accept ',style: TextStyle(
+                        Text(S.of(context).by_pressing_register_you_agree_to,style: TextStyle(
                             color: AppColors.white2,
                             fontSize: 44.sp
                         ),),
@@ -330,7 +337,9 @@ class SignUp extends ConsumerWidget {
 
                           ),
 
-                          onPressed: (){}, child: Text('Term & Conditions',style: TextStyle(
+                          onPressed: (){
+
+                          }, child: Text(S.of(context).termsConditions,style: TextStyle(
                             color: AppColors.secondary2,
                             fontSize: 44.sp,
                             fontWeight: FontWeight.w600

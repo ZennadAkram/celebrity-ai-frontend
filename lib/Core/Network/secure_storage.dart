@@ -21,8 +21,18 @@ class TokenStorage {
   static Future<void> updateAccessToken(String access) async {
     await _storage.write(key: _accessTokenKey, value: access);
   }
+  static Future<void> updateRefreshToken(String refresh) async {
+    await _storage.write(key: _refreshTokenKey, value: refresh);
+  }
 
   static Future<void> deleteTokens() async {
     await _storage.deleteAll();
   }
+  static Future<bool> isTokensEmpty() async {
+    final accessToken = await _storage.read(key: _accessTokenKey);
+    final refreshToken = await _storage.read(key: _refreshTokenKey);
+    return accessToken == null || refreshToken == null;
+  }
+
+
 }

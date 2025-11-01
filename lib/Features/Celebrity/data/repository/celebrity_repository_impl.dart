@@ -20,8 +20,8 @@ class CelebrityRepositoryImpl implements CelebrityRepository {
   }
 
   @override
-  Future<List<CelebrityEntity>> getCelebrities(String? category,bool? isPrivate) async{
-    final models=await _dataSourceCelebrity.getCelebrities(category, isPrivate);
+  Future<List<CelebrityEntity>> getCelebrities(String? category,bool? isPrivate,{int? page}) async{
+    final models=await _dataSourceCelebrity.getCelebrities(category, isPrivate,page: page);
     return models.map((e) => e.toEntity()).toList();
 
 

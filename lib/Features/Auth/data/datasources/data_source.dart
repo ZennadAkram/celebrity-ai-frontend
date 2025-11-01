@@ -3,7 +3,9 @@ import 'package:chat_with_charachter/Features/Auth/data/models/UserModel.dart';
 import 'package:dio/dio.dart';
 
 import '../../../../Core/Network/secure_storage.dart';
-
+import '../../../../Shared/Global_Widgets/Main_App.dart';
+import '../../../../main.dart';
+import 'package:flutter/material.dart';
 class DataSource {
 final Dio _dio=PublicDio.dio;
 
@@ -15,6 +17,10 @@ Future<void> SignIn(String username,String password)async{
     });
     TokenStorage.saveTokens(response.data['access'], response.data['refresh']);
     print("🟢 Login successful: ${response.data}");
+    navigatorKey.currentState?.pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) =>  MainApp()),
+          (route) => false,
+    );
   }on DioError catch(e){
     if(e.response!=null){
       print("🔴 Login failed: ${e.response?.data}");

@@ -1,19 +1,48 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_with_charachter/Core/Constants/app_colors.dart';
 import 'package:chat_with_charachter/Features/Celebrity/domain/entities/celebrity.dart';
+import 'package:chat_with_charachter/Features/Chats/presentation/views/chat_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+
+import '../../../../Core/Providers/create_session_provider.dart';
 import '../../../../generated/l10n.dart';
-class CharacterCard extends StatelessWidget {
+class CharacterCard extends ConsumerWidget {
   final CelebrityEntity entity;
   const CharacterCard({super.key, required this.entity});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
+    final createSessionViewModel=ref.read(createSessionViewModelProvider.notifier);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
+        onTap: () async {
+          final session = await createSessionViewModel.createSession(entity.id!);
+
+          if (context.mounted) {
+            Navigator.of(context).push(PageRouteBuilder(
+              transitionDuration: const Duration(milliseconds: 400),
+              pageBuilder: (_, animation, __) {
+                final slideAnimation = Tween<Offset>(
+                  begin: const Offset(0.05, 0),
+                  end: Offset.zero,
+                ).animate(animation);
+
+                return FadeTransition(
+                  opacity: animation,
+                  child: SlideTransition(
+                    position: slideAnimation,
+                    child: ChatPage(entitySession: session),
+                  ),
+                );
+              },
+            ));
+          }
+        },
+
         child: Container(
           width: double.infinity,
           height: 0.3.sh,

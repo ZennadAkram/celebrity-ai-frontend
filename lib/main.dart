@@ -8,6 +8,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'Core/Network/secure_storage.dart';
 import 'Core/Providers/locale_provider.dart';
 import 'Core/Services/camera_service.dart';
 import 'Core/Services/preferences_service.dart'; // Import your PreferencesService
@@ -22,6 +23,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'generated/l10n.dart';
+
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,16 +61,23 @@ class _MyAppState extends ConsumerState<MyApp> {
       final savedTheme = await prefsService.getTheme();
       final savedLanguageCode = await prefsService.getLanguage();
 
-      // Update providers with saved values
+      // Update providers
       ref.read(isDarkModeProvider.notifier).state = savedTheme;
       ref.read(localeProvider.notifier).changeLocale(Locale(savedLanguageCode));
 
-      print('App initialized with theme: $savedTheme, language: $savedLanguageCode');
+      // Check login tokens
+      final tokensEmpty = await TokenStorage.isTokensEmpty();
+      if (!tokensEmpty) {
+        _isLoggedIn = true; // user has tokens
+      } else {
+        _isLoggedIn = false; // user needs login
+      }
+
     } catch (e) {
-      print('Error initializing app preferences: $e');
-      // Use defaults if loading fails
-      ref.read(isDarkModeProvider.notifier).state = true; // Default to dark
-      ref.read(localeProvider.notifier).changeLocale(const Locale('en')); // Default to English
+      print('Error initializing app: $e');
+      ref.read(isDarkModeProvider.notifier).state = true;
+      ref.read(localeProvider.notifier).changeLocale(const Locale('en'));
+      _isLoggedIn = false;
     } finally {
       setState(() {
         _isInitialized = true;
@@ -74,10 +85,14 @@ class _MyAppState extends ConsumerState<MyApp> {
     }
   }
 
+  bool _isLoggedIn = false;
+
+
   @override
   Widget build(BuildContext context) {
     if (!_isInitialized) {
       return MaterialApp(
+
         home: Scaffold(
           backgroundColor: Colors.black, // Use a neutral color
           body: Center(
@@ -136,6 +151,7 @@ class _MyAppState extends ConsumerState<MyApp> {
           duration: const Duration(milliseconds: 500),
           curve: Curves.easeInOutCubic,
           child: MaterialApp(
+            navigatorKey: navigatorKey,
             locale: locale,
             supportedLocales: S.delegate.supportedLocales,
             localizationsDelegates: const [
@@ -154,7 +170,7 @@ class _MyAppState extends ConsumerState<MyApp> {
               child: Container(
                 key: ValueKey<bool>(isDarkMode),
                 color: Theme.of(context).scaffoldBackgroundColor,
-                child: const MainApp(),
+                child:  _isLoggedIn ? MainApp() : SignIn()
               ),
             ),
           ),

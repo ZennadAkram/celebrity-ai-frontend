@@ -1,4 +1,4 @@
-import 'package:chat_with_charachter/Features/Chats/domain/entities/chat_session_entity.dart';
+import 'package:chat_with_charachter/Core/Domain/entities/chat_session_entity.dart';
 import 'package:chat_with_charachter/Features/Chats/domain/entities/stored_message_entity.dart';
 
 import '../../domain/repository/chat_session_repository.dart';
@@ -11,14 +11,14 @@ class ChatSessionRepositoryImpl implements ChatSessionRepository {
   ChatSessionRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<List<ChatSessionEntity>> getChatSessions() async {
-    final model= await remoteDataSource.getChatSessions();
+  Future<List<ChatSessionEntity>> getChatSessions(int? page) async {
+    final model= await remoteDataSource.getChatSessions(page);
     return model.map((e)=>e.toEntity()).toList();
   }
 
   @override
-  Future<List<StoredMessageEntity>> getMessagesForSession(int sessionId) async{
-    final model=await remoteDataSource.getMessagesForSession(sessionId);
+  Future<List<StoredMessageEntity>> getMessagesForSession(int sessionId,{int? page}) async{
+    final model=await remoteDataSource.getMessagesForSession(sessionId,page: page);
     return model.map((e) => e.toEntity()).toList();
   }
 

@@ -38,6 +38,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "وصف المظهر",
     ),
     "audioLanguage": MessageLookupByLibrary.simpleMessage("لغة الصوت"),
+    "by_pressing_register_you_agree_to": MessageLookupByLibrary.simpleMessage(
+      "بالضغط على “سجّل” فإنك توافق على",
+    ),
     "cartoonsCategory": MessageLookupByLibrary.simpleMessage("الرسوم المتحركة"),
     "characterAIPremium": MessageLookupByLibrary.simpleMessage(
       "النسخة المميزة من Character.AI",
@@ -76,6 +79,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "deactivateAccount": MessageLookupByLibrary.simpleMessage("تعطيل الحساب"),
     "deleteAccount": MessageLookupByLibrary.simpleMessage("حذف الحساب"),
     "documentaryCategory": MessageLookupByLibrary.simpleMessage("الوثائقيات"),
+    "dont_have_account": MessageLookupByLibrary.simpleMessage(
+      "ليس لديك حساب؟ ",
+    ),
     "editProfile": MessageLookupByLibrary.simpleMessage("تعديل الملف الشخصي"),
     "email": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
     "errorLabel": MessageLookupByLibrary.simpleMessage("خطأ"),
@@ -94,6 +100,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "followOnSocialMedia": MessageLookupByLibrary.simpleMessage(
       "تابعنا على وسائل التواصل الاجتماعي",
     ),
+    "forgotPassword": MessageLookupByLibrary.simpleMessage(
+      "هل نسيت كلمة المرور؟",
+    ),
     "getPremiumBenefit": MessageLookupByLibrary.simpleMessage(
       "احصل على Character.AI Premium للاستمتاع بكل المزايا!",
     ),
@@ -104,6 +113,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "loadingMessages": MessageLookupByLibrary.simpleMessage(
       "جارٍ تحميل الرسائل...",
     ),
+    "log_in": MessageLookupByLibrary.simpleMessage("سجّل الدخول"),
+    "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
     "male": MessageLookupByLibrary.simpleMessage("ذكر"),
     "month1": MessageLookupByLibrary.simpleMessage("شهر واحد"),
@@ -115,6 +126,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "لم يتم اختيار صورة.",
     ),
     "noMessagesYet": MessageLookupByLibrary.simpleMessage("لا توجد رسائل بعد"),
+    "or_login_with": MessageLookupByLibrary.simpleMessage(
+      "أو تسجيل الدخول بواسطة",
+    ),
+    "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
     "premiumSubtitle": MessageLookupByLibrary.simpleMessage(
       "اشترك في Character.AI Premium وتمتع بالوصول غير المحدود إلى جميع النماذج والأصوات!",
     ),
@@ -127,6 +142,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "profileTitle": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
     "publicOption": MessageLookupByLibrary.simpleMessage("عام"),
     "publicTab": MessageLookupByLibrary.simpleMessage("عام"),
+    "register": MessageLookupByLibrary.simpleMessage("سجّل"),
+    "register_now": MessageLookupByLibrary.simpleMessage("سجّل الآن"),
     "retryButton": MessageLookupByLibrary.simpleMessage("إعادة المحاولة"),
     "saveChanges": MessageLookupByLibrary.simpleMessage("حفظ التغييرات"),
     "searchHint": MessageLookupByLibrary.simpleMessage("بحث"),
@@ -135,11 +152,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "startNow": MessageLookupByLibrary.simpleMessage("ابدأ الآن"),
     "termsConditions": MessageLookupByLibrary.simpleMessage("الشروط والأحكام"),
     "themeDisplay": MessageLookupByLibrary.simpleMessage("عرض السمة"),
+    "to_your_account": MessageLookupByLibrary.simpleMessage(" إلى حسابك"),
     "typeMessageHint": MessageLookupByLibrary.simpleMessage("اكتب رسالة..."),
     "uid": MessageLookupByLibrary.simpleMessage("معرف المستخدم"),
     "userPreferences": MessageLookupByLibrary.simpleMessage("تفضيلات المستخدم"),
     "username": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
     "viewOnLibrary": MessageLookupByLibrary.simpleMessage("عرض في المكتبة"),
     "visibilityLabel": MessageLookupByLibrary.simpleMessage("الرؤية"),
+    "your_account": MessageLookupByLibrary.simpleMessage("حسابك"),
   };
 }

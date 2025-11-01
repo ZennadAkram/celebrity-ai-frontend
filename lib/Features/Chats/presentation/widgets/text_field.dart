@@ -46,7 +46,7 @@ padding: EdgeInsets.symmetric(horizontal: 40.r),
                Expanded(child:speechState.isListening
                    ? Align(
                    alignment: Alignment.topCenter,
-                   child: AudioVisualizer(level: speechState.soundLevel, celebrityId))
+                   child: AudioVisualizer(level: speechState.soundLevel, celebrityId, sessionId!, bars: 20))
                    : TextField(
                  controller: messageController,
                  onSubmitted: (value){

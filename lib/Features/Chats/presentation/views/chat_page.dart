@@ -10,7 +10,7 @@ import '../../../../Shared/Enum/message_type.dart';
 import '../../../../generated/l10n.dart';
 import '../../../Celebrity/domain/entities/celebrity.dart';
 import '../../data/repository/chat_repository_impl.dart';
-import '../../domain/entities/chat_session_entity.dart';
+import '../../../../Core/Domain/entities/chat_session_entity.dart';
 import '../../domain/entities/message_entity.dart';
 import '../../domain/entities/stored_message_entity.dart';
 import '../providers/chat_provider.dart';
@@ -39,13 +39,13 @@ class ChatPage extends HookConsumerWidget {
     );
 
     useEffect(() {
-      // Determine the session id
-      final sessionId = entity?.id ?? entitySession?.id;
+      final sessionId =entitySession?.id ?? entity?.id ;
       if (sessionId == null) return null;
 
-      // Trigger loading messages once
-      ref.read(storedMessagesViewModelProvider.notifier).getMessages(sessionId);
-
+      Future.microtask(() {
+        ref.read(sessionProvider.notifier).state = sessionId;
+        ref.read(storedMessagesViewModelProvider.notifier).getMessages(sessionId);
+      });
 
       return null;
     }, [entity, entitySession]);
@@ -155,9 +155,8 @@ class ChatPage extends HookConsumerWidget {
         // Input Field
             Material(
               color:isDark? Colors.black:AppColors.black1,
-              child: TextFieldChat(
-                entity?.id ?? entitySession?.celebrity ?? 0,entitySession?.id
-              ),
+              child:TextFieldChat(entitySession?.celebrity ?? entity?.id ?? 0, entitySession?.id)
+
             ),
           ],
         ),

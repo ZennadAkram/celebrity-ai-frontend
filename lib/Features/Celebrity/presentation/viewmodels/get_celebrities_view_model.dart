@@ -36,12 +36,15 @@ class getCelebrityViewModel extends StateNotifier<AsyncValue<List<CelebrityEntit
   Future<void> _loadInitial() async {
     await getCelebrities("", false);
     await getCelebrities("", true);
+    await getCelebrities("", null);
+    _currentPage=2;
+    isInitialLoad=false;
   }
 
   /// Fetches celebrities with caching
   Future<void> getCelebrities(String? category, bool? isPrivate, {bool forceRefresh = false}) async {
     // --- Return cached data instantly for smooth UI ---
-    if (!forceRefresh) {
+    /*if (!forceRefresh) {
       if (isPrivate == true && _privateCelebrities != null && _hasLoadedPrivate) {
         state = AsyncData(_privateCelebrities!);
         return;
@@ -49,26 +52,96 @@ class getCelebrityViewModel extends StateNotifier<AsyncValue<List<CelebrityEntit
         state = AsyncData(_publicCelebrities!);
         return;
       }
-    }
+    }*/
 
     // --- Otherwise fetch from backend ---
     state = const AsyncLoading();
     try {
-      final result = await _useCase(category, isPrivate);
+      final result = await _useCase(category, isPrivate,page: 1);
 
       if (isPrivate == true) {
         _privateCelebrities = result;
         _hasLoadedPrivate = true;
-      } else {
+        state = AsyncData(result);
+        hasMorePrivate = result.length == 15;
+      } else if (isPrivate == false) {
         _publicCelebrities = result;
         _hasLoadedPublic = true;
+        state = AsyncData(result);
+        hasMorePublic = result.length == 15;
+
+      }else{
+       state = AsyncData(result);
+       hasMore = result.length == 15;
       }
 
-      state = AsyncData(result);
+
+
     } catch (e, st) {
       state = AsyncError(e, st);
     }
   }
+  int _currentPage = 1;
+  bool _isLoadingMore = false;
+  bool hasMore = true;
+  bool isInitialLoad = true;
+  bool hasMorePublic = true;
+  bool hasMorePrivate = true;
+
+  Future<void> loadMore(String? category, bool? isPrivate) async {
+    if (_isLoadingMore) return;
+
+    if (isPrivate == null && !hasMore) return;
+    if (isPrivate == true && !hasMorePrivate) return;
+    if (isPrivate == false && !hasMorePublic) return;
+
+    _isLoadingMore = true;
+    try {
+      final nextCelebrities = await _useCase(category, isPrivate, page: _currentPage);
+
+      if (nextCelebrities.isEmpty) {
+        if (isPrivate == null) {
+          hasMore = false;
+        }
+        if (isPrivate == true) {
+          hasMorePrivate = false;
+        }
+        if (isPrivate == false) {
+          hasMorePublic = false;
+        }
+        return;
+      }
+
+      final currentList = state.asData?.value ?? [];
+
+      if (isPrivate == null) {
+        state = AsyncData([...currentList, ...nextCelebrities]);
+      }
+
+      if (isPrivate == true) {
+        _privateCelebrities = [...?_privateCelebrities, ...nextCelebrities];
+        hasMorePrivate = nextCelebrities.length == 15;
+        state = AsyncData(state.value ?? []);
+      } else if (isPrivate == false) {
+        _publicCelebrities = [...?_publicCelebrities, ...nextCelebrities];
+        hasMorePublic = nextCelebrities.length == 15;
+        state = AsyncData(state.value ?? []);
+
+      }
+
+      if (nextCelebrities.length == 15) {
+        _currentPage++;
+      } else {
+        hasMore = false;
+      }
+
+    } catch (e, st) {
+      state = AsyncError(e, st);
+    } finally {
+      _isLoadingMore = false;
+    }
+  }
+
 
   /// Add a newly created celebrity to the correct list
   void addCelebrity(CelebrityEntity celeb) {
@@ -117,6 +190,8 @@ Appearance: ${appearanceController.text.trim()}
       state = AsyncError(e, st);
     }
   }
+
+
 
   @override
   void dispose() {

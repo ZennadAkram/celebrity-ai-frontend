@@ -83,7 +83,18 @@
   "noMessagesYet": "Aucun message pour le moment",
   "typeMessageHint": "Écrivez un message...",
   "profileTitle": "Profil",
-  "create": "Créer"
+  "create": "Créer",
+  "login": "Connexion",
+      "password": "Mot de passe",
+      "forgotPassword": "Mot de passe oublié ?",
+      "or_login_with": "ou connectez-vous avec",
+      "dont_have_account": "Vous n'avez pas de compte ? ",
+      "register_now": "Inscrivez-vous",
+      "log_in": "Connectez-vous",
+      "to_your_account":" à votre compte",
+      "your_account": "Votre compte",
+       "register": "S'inscrire",
+       "by_pressing_register_you_agree_to": "En appuyant sur “S'inscrire”, vous acceptez"
 
 
 

@@ -7,49 +7,114 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../generated/l10n.dart';
 import '../providers/chat_session_provider.dart';
 import '../widgets/chat_card.dart';
-class ChatSessionsPage extends ConsumerWidget {
+
+class ChatSessionsPage extends ConsumerStatefulWidget {
   const ChatSessionsPage({super.key});
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
-    final chatSessionState=ref.watch(chatSessionsViewModelProvider);
-    return Padding(padding: EdgeInsets.all(16),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(S.of(context).chatsTitle,style: TextStyle(
-          color: AppColors.white2,
-          fontSize: 60.sp
+  ConsumerState<ChatSessionsPage> createState() => _ChatSessionsPageState();
+}
 
-        ),),
-        SizedBox(
-          height: 0.05.sh,
-        ),
-        chatSessionState.when(data: (sessions){
-          if (kDebugMode) {
-            print("👏👏👏👏👏👏👏👏 ${sessions.length}");
-          }
+class _ChatSessionsPageState extends ConsumerState<ChatSessionsPage> {
+  final ScrollController _scrollController = ScrollController();
 
-          return Expanded(
+  bool _isLoadingMore = false;
 
-            child: ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 30.r),
-                itemCount: sessions.length,
-                itemBuilder: (context,index){
+  @override
+  void initState() {
+    super.initState();
 
-                return Padding(
-                  padding:  EdgeInsets.symmetric(vertical: 60.r),
-                  child: ChatSessionCard(entity: sessions[index]),
-                );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.addListener(() async {
+        if (!mounted) return;
+        final viewModel = ref.read(chatSessionsViewModelProvider.notifier);
 
-            }),
-          );
-        }, error: (e, _) => Center(child: Text(S.of(context).errorLoadingChats)
-        ), loading: ()=>Center(child: CircularProgressIndicator(color: AppColors.brand1,),))
+        final position = _scrollController.position;
+        if (position.pixels >= position.maxScrollExtent - 300 &&
+            !_isLoadingMore &&
+            viewModel.hasMore &&
+            viewModel.isInitialLoad == false
+          ) { // optional flag from viewmodel
+          _isLoadingMore = true;
+          await viewModel.loadMore();
+          _isLoadingMore = false;
+        }
+      });
+    });
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    final chatSessionState = ref.watch(chatSessionsViewModelProvider);
 
-      ],
-    ),
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            S.of(context).chatsTitle,
+            style: TextStyle(
+              color: AppColors.white2,
+              fontSize: 60.sp,
+            ),
+          ),
+          SizedBox(height: 0.05.sh),
+
+          // 👇 Display chat sessions list
+          chatSessionState.when(
+            data: (sessions) {
+              if (kDebugMode) print("✅ Sessions loaded: ${sessions.length}");
+
+              return Expanded(
+                child: ListView.builder(
+                  controller: _scrollController,
+                  padding: EdgeInsets.symmetric(horizontal: 30.r),
+                  itemCount: sessions.length + 1, // always add 1 for loader placeholder
+                  itemBuilder: (context, index) {
+                    if (index < sessions.length) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(vertical: 60.r),
+                        child: ChatSessionCard(entity: sessions[index]),
+                      );
+                    } else {
+                      // This is the bottom loader
+                      return Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20.r),
+                        child: Center(
+
+                          child: SizedBox(
+                            height: 80.r,
+                            width: 80.r,
+                            child: _isLoadingMore
+                                ? CircularProgressIndicator(color: AppColors.white2,
+                            strokeWidth: 9.r,)
+                                : const SizedBox.shrink(),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              );
+
+            },
+            error: (e, _) => Center(
+              child: Text(S.of(context).errorLoadingChats),
+            ),
+            loading: () => Center(
+              child: CircularProgressIndicator(color: AppColors.brand1),
+            ),
+          ),
+        
+        ],
+      ),
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 }

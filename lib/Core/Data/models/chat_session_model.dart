@@ -1,4 +1,4 @@
-import 'package:chat_with_charachter/Features/Chats/domain/entities/chat_session_entity.dart';
+import 'package:chat_with_charachter/Core/Domain/entities/chat_session_entity.dart';
 
 class ChatSessionModel{
   int? id;

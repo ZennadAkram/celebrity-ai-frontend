@@ -1,4 +1,5 @@
 import 'package:chat_with_charachter/Core/Constants/app_colors.dart';
+import 'package:chat_with_charachter/Features/Auth/presentation/views/Sign_Up.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +8,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../Core/Network/Auth/discord_auth.dart';
 import '../../../../Core/Network/Auth/facebook_auth.dart';
 import '../../../../Core/Network/Auth/google_auth.dart';
+import '../../../../generated/l10n.dart';
+import '../../../../main.dart';
 import '../providers/providers.dart';
 class SignIn extends ConsumerWidget {
   const SignIn({super.key});
@@ -16,7 +19,7 @@ class SignIn extends ConsumerWidget {
     final toggle=ref.watch(toggleVisible);
     final viewModel=ref.watch(signInViewModel.notifier);
     return Scaffold(
-      backgroundColor: Color(0xFF020202),
+
       resizeToAvoidBottomInset: true,
 
 
@@ -50,11 +53,11 @@ class SignIn extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Log in',style: TextStyle(
+                  Text(S.of(context).log_in,style: TextStyle(
                     fontSize: 90.sp,
                     color: AppColors.white2
                   ),),
-                  Text('to your account',style: TextStyle(
+                  Text(S.of(context).to_your_account,style: TextStyle(
                       fontSize: 90.sp,
                       color: AppColors.white2
                   ),),
@@ -62,17 +65,20 @@ class SignIn extends ConsumerWidget {
                   TextFormField(
                     controller: viewModel.email,
                    maxLines: 1,
+                    keyboardType: TextInputType.emailAddress,
                     cursorColor: AppColors.white2,
                     style: TextStyle(
                         color: AppColors.white2
                     ),
+
+
                     decoration: InputDecoration(
 
                       prefixIcon: Padding(
                         padding: const EdgeInsets.all(12),
                         child: SvgPicture.asset('images/svg/email.svg'),
                       ),
-                      hintText: 'Email',
+                      hintText: S.of(context).email,
                       hintStyle: TextStyle(
                         color: AppColors.white2
                       ),
@@ -97,6 +103,7 @@ class SignIn extends ConsumerWidget {
                     controller: viewModel.password,
                     obscureText: !toggle,
                     maxLines: 1,
+                    keyboardType: TextInputType.visiblePassword,
                     style: TextStyle(
                       color: AppColors.white2
                     ),
@@ -115,7 +122,7 @@ class SignIn extends ConsumerWidget {
                           padding: const EdgeInsets.all(12),
                           child: SvgPicture.asset('images/svg/password.svg'),
                         ),
-                        hintText: 'password',
+                        hintText: S.of(context).password,
                         hintStyle: TextStyle(
                             color: AppColors.white2
                         ),
@@ -141,7 +148,7 @@ class SignIn extends ConsumerWidget {
                   ),
                   Align(
                     alignment: Alignment.centerRight,
-                    child: TextButton(onPressed: (){}, child:Text('Forgot your password?',style: TextStyle(
+                    child: TextButton(onPressed: (){}, child:Text(S.of(context).forgotPassword,style: TextStyle(
                       color: AppColors.secondary2
                     )),),
                   ),
@@ -153,7 +160,7 @@ class SignIn extends ConsumerWidget {
                     height: 0.06.sh,
                     child: ElevatedButton(onPressed: () async{
                      await viewModel.signInUser();
-                    }, child: Text('Login',style: TextStyle(
+                    }, child: Text(S.of(context).login,style: TextStyle(
                       fontSize: 55.sp,
                       fontWeight: FontWeight.w600,
                       color: AppColors.white2
@@ -181,7 +188,7 @@ class SignIn extends ConsumerWidget {
                         ),
                       ),
                       SizedBox(width: 10,),
-                      Text('or login with',style: TextStyle(
+                      Text(S.of(context).or_login_with,style: TextStyle(
                         color: AppColors.white2,
                         fontSize: 40.sp
                       ),),
@@ -242,7 +249,7 @@ class SignIn extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Don’t have an account? ',style: TextStyle(
+                      Text(S.of(context).dont_have_account+'',style: TextStyle(
                         color: AppColors.white2,
                         fontSize: 44.sp
                       ),),
@@ -252,7 +259,12 @@ class SignIn extends ConsumerWidget {
 
                         ),
 
-                      onPressed: (){}, child: Text('Register Now',style: TextStyle(
+                      onPressed: (){
+                        navigatorKey.currentState?.pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (_) =>  SignUp()),
+                              (route) => false,
+                        );
+                      }, child: Text(S.of(context).register_now,style: TextStyle(
                           color: AppColors.secondary2,
                           fontSize: 44.sp,
                         fontWeight: FontWeight.w600

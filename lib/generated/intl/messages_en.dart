@@ -38,6 +38,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Appearance Description",
     ),
     "audioLanguage": MessageLookupByLibrary.simpleMessage("Audio Language"),
+    "by_pressing_register_you_agree_to": MessageLookupByLibrary.simpleMessage(
+      "By pressing “Register” you will accept",
+    ),
     "cartoonsCategory": MessageLookupByLibrary.simpleMessage("Cartoons"),
     "characterAIPremium": MessageLookupByLibrary.simpleMessage(
       "Character.AI Premium",
@@ -80,6 +83,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "deleteAccount": MessageLookupByLibrary.simpleMessage("Delete Account"),
     "documentaryCategory": MessageLookupByLibrary.simpleMessage("Documentary"),
+    "dont_have_account": MessageLookupByLibrary.simpleMessage(
+      "Don’t have an account? ",
+    ),
     "editProfile": MessageLookupByLibrary.simpleMessage("Edit Profile"),
     "email": MessageLookupByLibrary.simpleMessage("Email"),
     "errorLabel": MessageLookupByLibrary.simpleMessage("Error"),
@@ -98,6 +104,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "followOnSocialMedia": MessageLookupByLibrary.simpleMessage(
       "Follow on Social Media",
     ),
+    "forgotPassword": MessageLookupByLibrary.simpleMessage(
+      "Forgot your password?",
+    ),
     "getPremiumBenefit": MessageLookupByLibrary.simpleMessage(
       "Get Character.AI Premium to enjoy all the benefits!",
     ),
@@ -110,6 +119,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "loadingMessages": MessageLookupByLibrary.simpleMessage(
       "Loading messages...",
     ),
+    "log_in": MessageLookupByLibrary.simpleMessage("Log in"),
+    "login": MessageLookupByLibrary.simpleMessage("Login"),
     "logout": MessageLookupByLibrary.simpleMessage("Logout"),
     "male": MessageLookupByLibrary.simpleMessage("Male"),
     "month1": MessageLookupByLibrary.simpleMessage("1 Month"),
@@ -121,6 +132,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "No image selected.",
     ),
     "noMessagesYet": MessageLookupByLibrary.simpleMessage("No messages yet"),
+    "or_login_with": MessageLookupByLibrary.simpleMessage("or login with"),
+    "password": MessageLookupByLibrary.simpleMessage("Password"),
     "premiumSubtitle": MessageLookupByLibrary.simpleMessage(
       "Subscribe to Character.AI Premium and get unlimited access to all our models and voices!",
     ),
@@ -133,6 +146,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "profileTitle": MessageLookupByLibrary.simpleMessage("Profile"),
     "publicOption": MessageLookupByLibrary.simpleMessage("Public"),
     "publicTab": MessageLookupByLibrary.simpleMessage("Public"),
+    "register": MessageLookupByLibrary.simpleMessage("Register"),
+    "register_now": MessageLookupByLibrary.simpleMessage("Register Now"),
     "retryButton": MessageLookupByLibrary.simpleMessage("Retry"),
     "saveChanges": MessageLookupByLibrary.simpleMessage("Save Changes"),
     "searchHint": MessageLookupByLibrary.simpleMessage("Search"),
@@ -143,6 +158,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Terms & Conditions",
     ),
     "themeDisplay": MessageLookupByLibrary.simpleMessage("Theme Display"),
+    "to_your_account": MessageLookupByLibrary.simpleMessage("to your account"),
     "typeMessageHint": MessageLookupByLibrary.simpleMessage(
       "Type a message...",
     ),
@@ -151,5 +167,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "username": MessageLookupByLibrary.simpleMessage("Username"),
     "viewOnLibrary": MessageLookupByLibrary.simpleMessage("View on Library"),
     "visibilityLabel": MessageLookupByLibrary.simpleMessage("Visibility"),
+    "your_account": MessageLookupByLibrary.simpleMessage("your account"),
   };
 }

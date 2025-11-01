@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_with_charachter/Core/Constants/app_colors.dart';
+import 'package:chat_with_charachter/Features/Auth/presentation/views/Sign_In.dart';
 import 'package:chat_with_charachter/Features/profile/presentation/views/premium_page.dart';
 import 'package:chat_with_charachter/Features/profile/presentation/views/user_preferences.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../Core/Network/secure_storage.dart';
 import '../../../../generated/l10n.dart';
+import '../../../../main.dart';
 import '../providers/profile_provider.dart';
 import 'edit_profile_page.dart';
 class ProfilePage extends ConsumerWidget {
@@ -330,7 +333,14 @@ class ProfilePage extends ConsumerWidget {
 
                 SizedBox(
                   width: double.infinity,
-                  child: OutlinedButton(onPressed: (){},style: OutlinedButton.styleFrom(
+                  child: OutlinedButton(onPressed: () async{
+                    await TokenStorage.deleteTokens();
+                    navigatorKey.currentState?.pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (_) =>  SignIn()),
+                          (route) => false,
+                    );
+
+                  },style: OutlinedButton.styleFrom(
                     side: BorderSide(
                       color: AppColors.brand1,
                       width: 0.5

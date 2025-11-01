@@ -3,14 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../domain/entities/stored_message_entity.dart';
 import '../providers/chat_provider.dart';
+import '../providers/chat_session_provider.dart';
 import '../providers/stt_provider.dart';
 class AudioVisualizer extends ConsumerWidget {
   final double level; // 0.0 to 1.0
   final int bars;
   final int celebrityId;
+  final int sessionId;
 
-  const AudioVisualizer(this.celebrityId, {super.key, required this.level, this.bars = 20});
+  const AudioVisualizer(this.celebrityId, this.sessionId, {super.key, required this.level, this.bars = 20});
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
@@ -60,6 +63,7 @@ class AudioVisualizer extends ConsumerWidget {
               IconButton(onPressed: (){
                 vm.stopListening();
                 viewModel.sendMessage(messageState.recognizedText,celebrityId );
+                ref.read(storedMessagesViewModelProvider.notifier).saveMessage(StoredMessageEntity(session: sessionId, sender:'user'  , text:messageState.recognizedText));
                 vm.clearText();
               }, icon: Icon(Icons.arrow_upward,size: 22,color: Colors.black,),
           padding: EdgeInsets.all(15.h),

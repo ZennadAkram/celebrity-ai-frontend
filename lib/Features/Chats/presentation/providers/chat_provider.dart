@@ -35,3 +35,5 @@ final chatMessagesProvider = StreamProvider<List<MessageEntity>>((ref) {
   });
 });
 final messageListProvider=StateProvider<List<MessageEntity>>((ref)=>[]);
+final sessionProvider=StateProvider<int>((ref)=>0);
+

@@ -244,6 +244,96 @@ class S {
     return Intl.message('Logout', name: 'logout', desc: '', args: []);
   }
 
+  /// `Login`
+  String get login {
+    return Intl.message('Login', name: 'login', desc: '', args: []);
+  }
+
+  /// `Password`
+  String get password {
+    return Intl.message('Password', name: 'password', desc: '', args: []);
+  }
+
+  /// `Forgot your password?`
+  String get forgotPassword {
+    return Intl.message(
+      'Forgot your password?',
+      name: 'forgotPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `or login with`
+  String get or_login_with {
+    return Intl.message(
+      'or login with',
+      name: 'or_login_with',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Don’t have an account? `
+  String get dont_have_account {
+    return Intl.message(
+      'Don’t have an account? ',
+      name: 'dont_have_account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Register Now`
+  String get register_now {
+    return Intl.message(
+      'Register Now',
+      name: 'register_now',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log in`
+  String get log_in {
+    return Intl.message('Log in', name: 'log_in', desc: '', args: []);
+  }
+
+  /// `to your account`
+  String get to_your_account {
+    return Intl.message(
+      'to your account',
+      name: 'to_your_account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `your account`
+  String get your_account {
+    return Intl.message(
+      'your account',
+      name: 'your_account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Register`
+  String get register {
+    return Intl.message('Register', name: 'register', desc: '', args: []);
+  }
+
+  /// `By pressing “Register” you will accept`
+  String get by_pressing_register_you_agree_to {
+    return Intl.message(
+      'By pressing “Register” you will accept',
+      name: 'by_pressing_register_you_agree_to',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `UID`
   String get uid {
     return Intl.message('UID', name: 'uid', desc: '', args: []);

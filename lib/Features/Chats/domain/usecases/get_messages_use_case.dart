@@ -4,7 +4,7 @@ import 'package:chat_with_charachter/Features/Chats/domain/repository/chat_sessi
 class GetMessagesUseCase{
   final ChatSessionRepository repository;
   GetMessagesUseCase(this.repository);
-  Future<List<StoredMessageEntity>> call(int sessionId){
-    return repository.getMessagesForSession(sessionId);
+  Future<List<StoredMessageEntity>> call(int sessionId,{int? page}){
+    return repository.getMessagesForSession(sessionId,page: page);
   }
 }
