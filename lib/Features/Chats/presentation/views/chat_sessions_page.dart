@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../generated/l10n.dart';
 import '../providers/chat_session_provider.dart';
 import '../widgets/chat_card.dart';
+import 'chat_page.dart';
 
 class ChatSessionsPage extends ConsumerStatefulWidget {
   const ChatSessionsPage({super.key});
@@ -43,6 +44,7 @@ class _ChatSessionsPageState extends ConsumerState<ChatSessionsPage> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     final chatSessionState = ref.watch(chatSessionsViewModelProvider);
@@ -75,7 +77,51 @@ class _ChatSessionsPageState extends ConsumerState<ChatSessionsPage> {
                     if (index < sessions.length) {
                       return Padding(
                         padding: EdgeInsets.symmetric(vertical: 60.r),
-                        child: ChatSessionCard(entity: sessions[index]),
+                        child: GestureDetector(
+
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    maintainState: true,  // Keep previous route's state
+                                    builder: (context) => ChatPage(
+                                      entitySession: sessions[index],
+                                    ),
+                                  ),
+                                );
+                              },
+
+                              onLongPress: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  backgroundColor: AppColors.black1,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                                  ),
+                                  builder: (context) {
+                                    return SafeArea(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          ListTile(
+
+                                            leading: Icon(Icons.delete, color: Colors.red),
+                                            title: Text('Delete', style: TextStyle(color: Colors.red)),
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                              ref.read(chatSessionsViewModelProvider.notifier).deleteSession(index,sessions[index].id!);
+
+
+                                            },
+                                          ),
+                                          SizedBox(height: 10),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+
+                              child: ChatSessionCard(entity: sessions[index])),
                       );
                     } else {
                       // This is the bottom loader
@@ -99,14 +145,18 @@ class _ChatSessionsPageState extends ConsumerState<ChatSessionsPage> {
               );
 
             },
-            error: (e, _) => Center(
-              child: Text(S.of(context).errorLoadingChats),
+            error: (e, _) => Expanded(
+              child: Center(
+                child: Text(S.of(context).errorLoadingChats),
+              ),
             ),
-            loading: () => Center(
-              child: CircularProgressIndicator(color: AppColors.brand1),
+            loading: () => Expanded(
+              child: Center(
+                child: CircularProgressIndicator(color: AppColors.white2),
+              ),
             ),
           ),
-        
+
         ],
       ),
     );
@@ -115,6 +165,7 @@ class _ChatSessionsPageState extends ConsumerState<ChatSessionsPage> {
   @override
   void dispose() {
     _scrollController.dispose();
+
     super.dispose();
   }
 }

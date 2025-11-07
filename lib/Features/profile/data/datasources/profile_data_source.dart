@@ -23,7 +23,7 @@ Future<ProfileModel> getUser() async {
   }
 }
 
-Future<void> editUser(ProfileModel user) async {
+Future<String> editUser(ProfileModel user) async {
   try {
     final formData = FormData.fromMap({
       "username": user.userName,
@@ -47,7 +47,9 @@ Future<void> editUser(ProfileModel user) async {
   ),
   );
 
+
     print("🟢 User updated successfully: ${response.data}");
+    return response.data['user_avatar'];
   } on DioError catch (e) {
     if (e.response != null) {
       print("🔴 Update user failed: ${e.response?.data}");

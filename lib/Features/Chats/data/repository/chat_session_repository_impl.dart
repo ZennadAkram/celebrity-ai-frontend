@@ -28,5 +28,10 @@ class ChatSessionRepositoryImpl implements ChatSessionRepository {
     return remoteDataSource.saveMessage(model);
   }
 
+  @override
+  Future<void> deleteSession(int id) async{
+   await remoteDataSource.deleteSession(id);
+  }
+
 
 }

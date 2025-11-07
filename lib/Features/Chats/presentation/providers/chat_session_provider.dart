@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/datasources/chat_sessions_source.dart';
 import '../../../../Core/Domain/entities/chat_session_entity.dart';
 import '../../domain/entities/stored_message_entity.dart';
+import '../../domain/usecases/delete_session.dart';
 import '../../domain/usecases/get_chat_session_use_case.dart';
 import '../../domain/usecases/get_messages_use_case.dart';
 import '../../domain/usecases/save_message_use_case.dart';
@@ -31,6 +32,10 @@ final storedMessagesViewModelProvider=StateNotifierProvider<StoredMessageViewMod
 final getChatSessionsUseCaseProvider=Provider<GetChatSessionsUseCase>((ref){
   return GetChatSessionsUseCase(ref.watch(repositoryProvider));
 });
+final deleteSessionUseCaseProvider=Provider<DeleteSessionUseCase>((ref){
+  return DeleteSessionUseCase(ref.watch(repositoryProvider));
+});
+
 final chatSessionsViewModelProvider=StateNotifierProvider<ChatSessionsViewModel,AsyncValue<List<ChatSessionEntity>>>((ref){
-  return ChatSessionsViewModel(ref.watch(getChatSessionsUseCaseProvider));
+  return ChatSessionsViewModel(ref.watch(getChatSessionsUseCaseProvider),ref.watch(deleteSessionUseCaseProvider));
 });

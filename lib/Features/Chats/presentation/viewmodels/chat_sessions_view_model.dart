@@ -1,3 +1,4 @@
+import 'package:chat_with_charachter/Features/Chats/domain/usecases/delete_session.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../Core/Domain/entities/chat_session_entity.dart';
@@ -5,7 +6,9 @@ import '../../domain/usecases/get_chat_session_use_case.dart';
 import 'package:flutter_riverpod/legacy.dart';
 class ChatSessionsViewModel extends StateNotifier<AsyncValue<List<ChatSessionEntity>>> {
   final GetChatSessionsUseCase _useCase;
-  ChatSessionsViewModel(this._useCase) : super(const AsyncLoading()) {
+  final DeleteSessionUseCase _deleteUseCase;
+
+  ChatSessionsViewModel(this._useCase, this._deleteUseCase) : super(const AsyncLoading()) {
     getChatSessions(1);
   }
 
@@ -28,7 +31,21 @@ class ChatSessionsViewModel extends StateNotifier<AsyncValue<List<ChatSessionEnt
       state = AsyncError(e, st);
     }
   }
+  Future<void> deleteSession(int index,int id) async {
+    try{
+      await _deleteUseCase(id);
+      state=AsyncData(List.from(state.value?? [])..removeAt(index));
 
+    }catch(e,st){
+      state = AsyncError(e, st);
+    }
+
+  }
+
+void addSession(ChatSessionEntity session){
+    _allSessions.add(session);
+  state = AsyncData(List.from(_allSessions)); // update state immutably
+}
   /// Called when user scrolls to the bottom
   Future<void> loadMore() async {
     if (state.isLoading || _isLoadingMore || !hasMore) return;

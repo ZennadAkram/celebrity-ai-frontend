@@ -89,6 +89,7 @@ class _MessagesBodyState extends ConsumerState<MessagesBody> {
                 final bubble = isUser
                     ? MessageBableUser(message.content, message.timestamp)
                     : MessageBableAi(
+                  isStreaming: message.isStreaming,
                   message: message.content,
                   time: message.timestamp,
                   url: widget.url,

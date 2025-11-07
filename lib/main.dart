@@ -1,22 +1,16 @@
 import 'package:chat_with_charachter/Core/Constants/app_colors.dart';
-import 'package:chat_with_charachter/Features/Celebrity/presentation/views/create_celebrity_views/create_celebrity_page_2.dart';
-import 'package:chat_with_charachter/Features/Celebrity/presentation/views/create_celebrity_views/create_celebrity_page_4.dart';
-import 'package:chat_with_charachter/Features/Onboarding/Onboarding-2.dart';
-import 'package:chat_with_charachter/Features/Onboarding/Onboarding-3.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:hive_flutter/adapters.dart';
 import 'Core/Network/secure_storage.dart';
 import 'Core/Providers/locale_provider.dart';
 import 'Core/Services/camera_service.dart';
-import 'Core/Services/preferences_service.dart'; // Import your PreferencesService
+import 'Core/Services/preferences_service.dart';
 import 'Features/Auth/presentation/views/Sign_In.dart';
-import 'Features/Auth/presentation/views/Sign_Up.dart';
-import 'Features/Celebrity/presentation/views/create_celebrity_views/create_celebrity_page_3.dart';
-import 'Features/Celebrity/presentation/views/create_celebrity_views/create_celebrity_page_5.dart';
-import 'Features/Onboarding/Onboarding-1.dart';
+import 'Features/Chats/presentation/views/speech_page.dart';
+import 'Features/profile/data/models/user_hive_model.dart';
 import 'Shared/Global_Widgets/Main_App.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -30,11 +24,14 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
+  await Hive.initFlutter();
 
+  Hive.registerAdapter(UserHiveModelAdapter());
+  await Hive.openBox<UserHiveModel>('userBox');
   await Permission.camera.request();
   await CameraService.initCameras();
 
-  runApp(const ProviderScope(child: MyApp()));
+  runApp( ProviderScope(child: MyApp()));
 }
 
 class MyApp extends ConsumerStatefulWidget {
@@ -170,7 +167,7 @@ class _MyAppState extends ConsumerState<MyApp> {
               child: Container(
                 key: ValueKey<bool>(isDarkMode),
                 color: Theme.of(context).scaffoldBackgroundColor,
-                child:  _isLoggedIn ? MainApp() : SignIn()
+                child:  _isLoggedIn ? SpeechPage() : SignIn()
               ),
             ),
           ),

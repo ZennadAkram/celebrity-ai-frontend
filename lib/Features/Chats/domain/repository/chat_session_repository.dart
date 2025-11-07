@@ -7,6 +7,8 @@ abstract class ChatSessionRepository{
   Future<List<ChatSessionEntity>> getChatSessions(int? page);
   Future<List<StoredMessageEntity>> getMessagesForSession(int sessionId,{int? page});
   Future<void> saveMessage(StoredMessageEntity message);
+  Future<void> deleteSession(int id);
+
 
 
 }

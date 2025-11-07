@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../Core/Providers/create_session_provider.dart';
 import '../../../../generated/l10n.dart';
+import '../../../Chats/presentation/providers/chat_session_provider.dart';
 class CharacterCard extends ConsumerWidget {
   final CelebrityEntity entity;
   const CharacterCard({super.key, required this.entity});
@@ -21,6 +22,8 @@ class CharacterCard extends ConsumerWidget {
       child: GestureDetector(
         onTap: () async {
           final session = await createSessionViewModel.createSession(entity.id!);
+          ref.read(chatSessionsViewModelProvider.notifier).addSession(session);
+          
 
           if (context.mounted) {
             Navigator.of(context).push(PageRouteBuilder(

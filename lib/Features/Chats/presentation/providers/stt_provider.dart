@@ -4,3 +4,7 @@ import 'package:flutter_riverpod/legacy.dart';
 final speechViewModelProvider = StateNotifierProvider<SpeechViewModel, SpeechState>(
       (ref) => SpeechViewModel(),
 );
+final sttViewModelProvider = StateNotifierProvider<SpeechViewModel, SpeechState>(
+      (ref) => SpeechViewModel(),
+);
+

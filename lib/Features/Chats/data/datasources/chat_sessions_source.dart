@@ -53,5 +53,18 @@ Future<List<StoredMessageModel>> getMessagesForSession(int sessionId,{int? page}
     }
 
   }
+Future<void> deleteSession(int id)async{
+    try{
+      final response=await _dio.delete('/chats/$id/');
+      if(response.statusCode==204){
+        return;
+      }else{
+        throw Exception('Failed to delete session');
+      }
+    }catch(e){
+      throw Exception('Failed to delete session: $e');
+    }
+
+  }
 
 }

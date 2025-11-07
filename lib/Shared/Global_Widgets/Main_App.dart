@@ -19,7 +19,7 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  int _currentIndex = 1;
+  int _currentIndex = 0;
 
   final List<Widget> _pages = [
     Explore(),                  // 🧭 Explore
@@ -28,7 +28,12 @@ class _MainAppState extends State<MainApp> {
     const LibraryPage(),
     const ProfilePage()// 📚 Library
   ];
-
+  @override
+  void dispose() {
+    _pages.clear();
+    _currentIndex = 0;
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

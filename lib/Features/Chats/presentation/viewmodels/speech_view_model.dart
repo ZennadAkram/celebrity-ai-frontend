@@ -12,16 +12,30 @@ class SpeechViewModel extends StateNotifier<SpeechState> {
     _initialize();
   }
 
-  Future<void> _initialize() async {
+  void _initialize() async {
     _isInitialized = await _speech.initialize(
-      onStatus: (status) => print("STT Status: $status"),
-      onError: (error) => print("STT Error: $error"),
+      onStatus: (status) {
+        print("STT Status: $status");
 
+        // 👇 Add this
+        if (status == "notListening" || status == "done") {
+          if (state.recognizedText.trim().isNotEmpty) {
+            // Notify listeners via callback or ref
+            _onSpeechFinished?.call(state.recognizedText.trim());
+          }
+        }
+      },
+      onError: (error) => print("STT Error: $error"),
     );
-    if (!_isInitialized) {
-      print("❌ Speech recognition not available");
-    }
+    if (!_isInitialized) print("❌ Speech recognition not available");
   }
+
+  void Function(String)? _onSpeechFinished;
+
+  void setOnSpeechFinished(void Function(String) callback) {
+    _onSpeechFinished = callback;
+  }
+
 
   void startListening() {
     if (!_isInitialized) return;
@@ -34,6 +48,7 @@ class SpeechViewModel extends StateNotifier<SpeechState> {
           );
         },
         listenFor: Duration(seconds: 60),
+
         cancelOnError: false,
         onSoundLevelChange: (level) {
           // level is 0-100, normalize to 0.0 - 1.0
