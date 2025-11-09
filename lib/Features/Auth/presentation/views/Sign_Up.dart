@@ -1,5 +1,4 @@
 import 'package:chat_with_charachter/Core/Constants/app_colors.dart';
-import 'package:chat_with_charachter/Shared/Global_Widgets/Main_App.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,7 +8,7 @@ import '../../../../Core/Network/Auth/discord_auth.dart';
 import '../../../../Core/Network/Auth/facebook_auth.dart';
 import '../../../../Core/Network/Auth/google_auth.dart';
 import '../../../../generated/l10n.dart';
-import '../../../../main.dart';
+
 import '../providers/providers.dart';
 class SignUp extends ConsumerWidget {
   const SignUp({super.key});
@@ -18,6 +17,12 @@ class SignUp extends ConsumerWidget {
   Widget build(BuildContext context,WidgetRef ref) {
     final toggle=ref.watch(toggleVisibleSignUp);
     final viewModel=ref.watch(signUpViewModel.notifier);
+    final userAlreadyExists=ref.watch(userAlreadyExistsProvider);
+    final emptyUserName=ref.watch(emptyUserNameProvider);
+    final emptyEmail=ref.watch(emptyEmailProvider);
+    final emptyPassword=ref.watch(emptyPasswordProvider);
+    final passwordTooShort=ref.watch(passwordTooShortProvider);
+
     return Scaffold(
         resizeToAvoidBottomInset: true,
       backgroundColor: Colors.black,
@@ -67,6 +72,14 @@ class SignUp extends ConsumerWidget {
                   child: BackButton( // default back arrow
                     color: Colors.white,
                     onPressed: () {
+
+                      ref.read(emptyEmailProvider.notifier).state=false;
+                      ref.read(emptyPasswordProvider.notifier).state=false;
+                      ref.read(emptyUserNameProvider.notifier).state=false;
+                      ref.read(userAlreadyExistsProvider.notifier).state=false;
+                      ref.read(passwordTooShortProvider.notifier).state=false;
+
+
                       Navigator.pop(context);
                     },
                   ),),
@@ -108,25 +121,37 @@ class SignUp extends ConsumerWidget {
                                           style: TextStyle(
                                               color: AppColors.white2
                                           ),
+
                                           decoration: InputDecoration(
         
                                               prefixIcon: Padding(
                                                 padding: const EdgeInsets.all(12),
-                                                child: SvgPicture.asset('images/svg/email.svg'),
+                                                child: SvgPicture.asset('images/svg/email.svg',color: emptyEmail?Colors.redAccent:null,),
                                               ),
                                               hintText: S.of(context).email,
                                               hintStyle: TextStyle(
                                                   color: AppColors.white2
                                               ),
+                                              helperText: emptyEmail ? 'email must not be empty' : null,
+                                              helperStyle: TextStyle(
+                                                  color: Colors.redAccent ,
+                                                  fontSize: 35.sp
+                                              ),
+
                                               fillColor: AppColors.black2,
-                                              border: OutlineInputBorder(
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: emptyEmail?Colors.redAccent:AppColors.grey1
+                                                ),
+
                                                   borderRadius: BorderRadius.circular(12)
                                               ),
         
                                               focusedBorder: OutlineInputBorder(
                                                 borderRadius: BorderRadius.circular(12),
                                                 borderSide: BorderSide(
-                                                    color: AppColors.brand1
+                                                    color:emptyEmail? Colors.redAccent: AppColors.brand1
+
                                                 ),
         
                                               )
@@ -138,6 +163,7 @@ class SignUp extends ConsumerWidget {
                                         TextFormField(
                                           controller: viewModel.username,
                                           maxLines: 1,
+                                          keyboardType: TextInputType.name,
                                           cursorColor: AppColors.white2,
                                           style: TextStyle(
                                               color: AppColors.white2
@@ -146,21 +172,29 @@ class SignUp extends ConsumerWidget {
         
                                               prefixIcon: Padding(
                                                 padding: const EdgeInsets.all(0),
-                                                child: Icon(Icons.account_circle_sharp)
+                                                child: Icon(Icons.account_circle_sharp,color:userAlreadyExists || emptyUserName?Colors.redAccent: AppColors.white2)
                                               ),
                                               hintText: S.of(context).username,
                                               hintStyle: TextStyle(
                                                   color: AppColors.white2
                                               ),
+                                              helperText: userAlreadyExists ? 'username already exists' : emptyUserName ? 'username must not be empty' : null,
+                                              helperStyle: TextStyle(
+                                                  color: Colors.redAccent ,
+                                                  fontSize: 35.sp
+                                              ),
                                               fillColor: AppColors.black2,
-                                              border: OutlineInputBorder(
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: userAlreadyExists || emptyUserName?Colors.redAccent:AppColors.grey1
+                                                ),
                                                   borderRadius: BorderRadius.circular(12)
                                               ),
         
                                               focusedBorder: OutlineInputBorder(
                                                 borderRadius: BorderRadius.circular(12),
                                                 borderSide: BorderSide(
-                                                    color: AppColors.brand1
+                                                    color:userAlreadyExists || emptyUserName? Colors.redAccent: AppColors.brand1
                                                 ),
         
                                               )
@@ -172,6 +206,10 @@ class SignUp extends ConsumerWidget {
                                         TextFormField(
                                           controller: viewModel.password,
                                           obscureText: !toggle,
+                                          keyboardType: TextInputType.visiblePassword,
+                                          autocorrect: false,
+                                          enableSuggestions: false,
+
                                           maxLines: 1,
                                           style: TextStyle(
                                               color: AppColors.white2
@@ -189,27 +227,36 @@ class SignUp extends ConsumerWidget {
         
                                               prefixIcon: Padding(
                                                 padding: const EdgeInsets.all(12),
-                                                child: SvgPicture.asset('images/svg/password.svg'),
+                                                child: SvgPicture.asset('images/svg/password.svg',color: emptyPassword || passwordTooShort?Colors.redAccent:null),
                                               ),
                                               hintText: S.of(context).password,
                                               hintStyle: TextStyle(
                                                   color: AppColors.white2
                                               ),
+                                              helperText: emptyPassword ? 'password must not be empty' : passwordTooShort ? 'password must be at least 8 characters long' : null,
+                                              helperStyle: TextStyle(
+                                                  color: Colors.redAccent ,
+                                                  fontSize: 35.sp
+                                              ),
         
                                               fillColor: AppColors.black2,
-                                              border: OutlineInputBorder(
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: emptyPassword || passwordTooShort?Colors.redAccent:AppColors.grey1),
                                                   borderRadius: BorderRadius.circular(12)
                                               ),
         
                                               focusedBorder: OutlineInputBorder(
                                                 borderRadius: BorderRadius.circular(12),
                                                 borderSide: BorderSide(
-                                                    color: AppColors.brand1
+                                                    color:emptyPassword || passwordTooShort? Colors.redAccent: AppColors.brand1
+
                                                 ),
         
                                               )
         
                                           ),
+
         
                                         ),
                                       ],
@@ -217,7 +264,7 @@ class SignUp extends ConsumerWidget {
                     )),
                
                 Positioned(
-                  top: 0.62.sh,
+                  top: 0.65.sh,
                   right: 0,
                   left: 0,
                   child: Padding(
@@ -227,6 +274,43 @@ class SignUp extends ConsumerWidget {
                       width: double.infinity,
                       height: 0.06.sh,
                       child: ElevatedButton(onPressed: ()async{
+                        if(viewModel.email.text.isEmpty||viewModel.password.text.isEmpty||viewModel.username.text.isEmpty){
+                          if(viewModel.email.text.isEmpty){
+                            ref.read(emptyEmailProvider.notifier).state=true;
+                          }else{
+                            ref.read(emptyEmailProvider.notifier).state=false;
+                          }
+                          if(viewModel.password.text.isEmpty) {
+                            ref
+                                .read(emptyPasswordProvider.notifier)
+                                .state = true;
+                          }else{
+                            ref
+                                .read(emptyPasswordProvider.notifier)
+                                .state = false;
+                            if(viewModel.password.text.length<8 && viewModel.password.text.isNotEmpty){
+                              ref.read(passwordTooShortProvider.notifier).state=true;
+                              ref
+                                  .read(emptyPasswordProvider.notifier)
+                                  .state = false;
+                            }else{
+                              ref.read(passwordTooShortProvider.notifier).state=false;
+                            }
+                          }
+                          if(viewModel.username.text.isEmpty) {
+                            ref.read(userAlreadyExistsProvider.notifier).state=false;
+                            ref
+                                .read(emptyUserNameProvider.notifier)
+                                .state = true;
+                          }else{
+                            ref.read(emptyUserNameProvider.notifier).state=false;
+                          }
+                         return;
+
+                        }
+
+
+
                        await viewModel.signUpUser();
                       }, child: Text(S.of(context).register,style: TextStyle(
                           fontSize: 55.sp,

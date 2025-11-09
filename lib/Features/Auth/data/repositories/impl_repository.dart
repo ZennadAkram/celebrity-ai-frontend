@@ -9,17 +9,18 @@ final DataSource dataSource;
 ImplRepository(this.dataSource);
 
   @override
-  Future<void> SignIn(String username, String password) async{
-await dataSource.SignIn(username, password);
+  Future<String> SignIn(String username, String password) async{
+final resp= await dataSource.SignIn(username, password);
+return resp;
 
 
   }
 
   @override
-  Future<void> SignUp(User user) {
+  Future<String> SignUp(User user) async{
     final model=UserModel.fromEntity(user);
     model.setPassword(user.getPassword()??"");
-    return dataSource.signUp(model);
+    return await dataSource.signUp(model);
   }
 
 

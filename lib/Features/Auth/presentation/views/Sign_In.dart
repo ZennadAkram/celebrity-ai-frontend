@@ -18,6 +18,9 @@ class SignIn extends ConsumerWidget {
   Widget build(BuildContext context,WidgetRef ref) {
     final toggle=ref.watch(toggleVisible);
     final viewModel=ref.watch(signInViewModel.notifier);
+    final isPasswordEmpty=ref.watch(emptyPasswordProvider);
+    final isEmailEmpty=ref.watch(emptyEmailProvider);
+    final wrongCredentials=ref.watch(wrongCredentialsProvider);
     return Scaffold(
 
       resizeToAvoidBottomInset: true,
@@ -74,23 +77,37 @@ class SignIn extends ConsumerWidget {
 
                     decoration: InputDecoration(
 
+
                       prefixIcon: Padding(
                         padding: const EdgeInsets.all(12),
-                        child: SvgPicture.asset('images/svg/email.svg'),
+                        child: SvgPicture.asset('images/svg/email.svg',
+                        color: isEmailEmpty || wrongCredentials ? Colors.redAccent : null),
+
                       ),
+
                       hintText: S.of(context).email,
+
                       hintStyle: TextStyle(
                         color: AppColors.white2
                       ),
+                      helperText: isEmailEmpty ?'username must not be empty' : wrongCredentials ? 'wrong username or password' : null,
+                      helperStyle: TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 35.sp
+                      ),
                       fillColor: AppColors.black2,
-                      border: OutlineInputBorder(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color:isEmailEmpty ||wrongCredentials ? Colors.redAccent :AppColors.grey1
+                        ),
                         borderRadius: BorderRadius.circular(12)
+
                       ),
 
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(
-                          color: AppColors.brand1
+                          color:isEmailEmpty || wrongCredentials ? Colors.redAccent :AppColors.brand1
                         ),
 
                       )
@@ -120,22 +137,31 @@ class SignIn extends ConsumerWidget {
 
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(12),
-                          child: SvgPicture.asset('images/svg/password.svg'),
+                          child: SvgPicture.asset('images/svg/password.svg',
+                          color: isPasswordEmpty || wrongCredentials? Colors.redAccent : null),
                         ),
                         hintText: S.of(context).password,
                         hintStyle: TextStyle(
                             color: AppColors.white2
                         ),
+                      helperText: isPasswordEmpty ?'password must not be empty' : wrongCredentials ? 'wrong username or password' : null,
+                      helperStyle: TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 35.sp
+                      ),
 
                         fillColor: AppColors.black2,
-                        border: OutlineInputBorder(
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color:isPasswordEmpty|| wrongCredentials? Colors.redAccent :AppColors.grey1
+                            ),
                             borderRadius: BorderRadius.circular(12)
                         ),
 
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(
-                              color: AppColors.brand1
+                              color:isPasswordEmpty|| wrongCredentials? Colors.redAccent :AppColors.brand1
                           ),
 
                         )
@@ -159,6 +185,23 @@ class SignIn extends ConsumerWidget {
                     width: double.infinity,
                     height: 0.06.sh,
                     child: ElevatedButton(onPressed: () async{
+                      if(viewModel.email.text.isEmpty||viewModel.password.text.isEmpty){
+
+                        if(viewModel.email.text.isEmpty){
+                          ref.read(wrongCredentialsProvider.notifier).state=false;
+                          ref.read(emptyEmailProvider.notifier).state=true;
+                        }
+                        if(viewModel.password.text.isEmpty) {
+                          ref
+                              .read(wrongCredentialsProvider.notifier)
+                              .state = false;
+                          ref
+                              .read(emptyPasswordProvider.notifier)
+                              .state = true;
+                        }
+                        return;
+
+                      }
                      await viewModel.signInUser();
                     }, child: Text(S.of(context).login,style: TextStyle(
                       fontSize: 55.sp,
@@ -260,6 +303,10 @@ class SignIn extends ConsumerWidget {
                         ),
 
                       onPressed: (){
+                          ref.read(wrongCredentialsProvider.notifier).state=false;
+                          ref.read(emptyEmailProvider.notifier).state=false;
+                          ref.read(emptyPasswordProvider.notifier).state=false;
+
                         navigatorKey.currentState?.pushAndRemoveUntil(
                           MaterialPageRoute(builder: (_) =>  SignUp()),
                               (route) => false,

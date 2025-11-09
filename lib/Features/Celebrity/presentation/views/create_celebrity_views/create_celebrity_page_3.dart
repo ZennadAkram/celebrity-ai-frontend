@@ -8,6 +8,7 @@ import '../../../../../Core/Constants/app_colors.dart';
 import '../../../../../generated/l10n.dart';
 import '../../providers/celebrity_providers.dart';
 import '../../providers/create_celebrity_providers/category_provider.dart' hide categoryProvider;
+import '../../providers/create_celebrity_providers/create_providers.dart';
 class CreateCelebrityPage3 extends ConsumerWidget {
   const CreateCelebrityPage3({super.key});
 
@@ -15,7 +16,7 @@ class CreateCelebrityPage3 extends ConsumerWidget {
   Widget build(BuildContext context,WidgetRef ref) {
     final viewModel=ref.watch(viewModelProvider.notifier);
     final viewModelChanger=ref.read(viewModelProvider.notifier);
-
+    final isAppearanceEmpty=ref.watch(isCharacterAppearanceEmptyProvider);
     final categoriesState=ref.watch(categoryViewModelProvider);
 
     return Scaffold(
@@ -90,7 +91,7 @@ class CreateCelebrityPage3 extends ConsumerWidget {
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
-                          color: AppColors.grey1
+                          color:isAppearanceEmpty? Colors.redAccent: AppColors.grey1
                       )
                   ),
                   focusedBorder: OutlineInputBorder(
@@ -102,6 +103,11 @@ class CreateCelebrityPage3 extends ConsumerWidget {
                   hintText: S.of(context).appearanceDescriptionHint,
                   hintStyle: TextStyle(
                       color: AppColors.grey1
+                  ),
+                  helperText: isAppearanceEmpty ? 'appearance must not be empty' : null,
+                  helperStyle: TextStyle(
+                      color: Colors.redAccent ,
+                      fontSize: 35.sp
                   ),
                 ),
               ),
@@ -145,13 +151,25 @@ class CreateCelebrityPage3 extends ConsumerWidget {
              )
 
 
-               , error: (e,st)=>Center(child: Text(e.toString())), loading: ()=>Center(child: CircularProgressIndicator(color: AppColors.white2,),)),
+               , error: (e,st)=>Expanded(child: Center(child: Text(e.toString()))), loading: ()=>Expanded(child: Center(child: CircularProgressIndicator(color: AppColors.white2,),))),
             Padding(
               padding: EdgeInsets.only(bottom: 70.r),
               child: SizedBox(
 
                 width: double.infinity,
-                child: ElevatedButton(onPressed: (){ Navigator.of(context).push(
+                child: ElevatedButton(onPressed: (){
+                  if(viewModel.appearanceController.text.isEmpty){
+                    ref
+                        .read(isCharacterAppearanceEmptyProvider.notifier)
+                        .state = true;
+                    return;
+
+                  }else{
+                    ref
+                        .read(isCharacterAppearanceEmptyProvider.notifier)
+                        .state = false;
+                  }
+                  Navigator.of(context).push(
                   MaterialPageRoute(
                       maintainState: true,  // Keep previous route's state
                       builder: (context) => CreateCelebrityPage4()

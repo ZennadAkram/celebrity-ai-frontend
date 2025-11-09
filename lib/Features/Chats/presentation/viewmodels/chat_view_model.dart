@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:chat_with_charachter/Features/Chats/domain/entities/stored_message_entity.dart';
 import 'package:flutter/foundation.dart';
@@ -14,10 +15,12 @@ import 'package:flutter_riverpod/legacy.dart';
 
 import '../providers/chat_provider.dart';
 import '../providers/chat_session_provider.dart';
+import '../providers/tts_providers.dart';
 
 class ChatViewModel extends StateNotifier<ChatState> {
   final SendMessageUseCase sendMessageUseCase;
   final Ref ref;
+  final bool isSpeech;
   StreamSubscription? _connectionSubscription;
   StreamSubscription? _messageSubscription;
   static List<MessageEntity> _persistentMessages = [];
@@ -27,9 +30,11 @@ class ChatViewModel extends StateNotifier<ChatState> {
   String? _currentStreamingMessageId;
   int _currentStreamingMessageIndex = -1;
   Timer? _streamingTimeout;
-  String _currentAiFullMessage = ''; // 🔥 ADD: Track complete message content
+  String _currentAiFullMessage = '';
 
-  ChatViewModel(this.sendMessageUseCase, this.ref) : super(ChatState.initial()) {
+
+
+  ChatViewModel(this.sendMessageUseCase, this.ref, this.isSpeech) : super(ChatState.initial()) {
     if (_persistentMessages.isNotEmpty && state.messages.isEmpty) {
       state = state.copyWith(messages: _persistentMessages);
     }
@@ -121,40 +126,42 @@ class ChatViewModel extends StateNotifier<ChatState> {
   // 🔥 MODIFIED: Handle AI message streaming with full message tracking
   void _handleAiMessage(MessageEntity message) {
     final incomingMessageId = message.messageId ?? 'default_id';
+    final trimmed = message.content.trim().toLowerCase();
+
+    // 🚫 Ignore meaningless or placeholder chunks like "answer"
+    if (trimmed.isEmpty || trimmed == 'answer') {
+      if (kDebugMode) print('⚠️ Ignored AI placeholder chunk: "${message.content}"');
+      return;
+    }
 
     if (_currentStreamingMessageId != incomingMessageId) {
-      // New message starting
       _currentStreamingMessageId = incomingMessageId;
-      _currentAiFullMessage = message.content; // 🔥 INITIAL CONTENT
+      _currentAiFullMessage = message.content;
 
-      // 🔥 STOP LOADING: First AI message received, hide loading indicator
+      // 🔥 STOP LOADING
       state = state.copyWith(isLoading: false);
 
-      // Create new streaming message
-      final newMessage = message.copyWith(
-        isStreaming: true,
-      );
-      addMessage(newMessage);
+      final newMessage = message.copyWith(isStreaming: true);
+
+        addMessage(newMessage);
+
       _currentStreamingMessageIndex = state.messages.length - 1;
 
       if (kDebugMode) {
         print('🚀 NEW AI MESSAGE STARTED: $incomingMessageId');
         print('📝 Initial content: "$_currentAiFullMessage"');
-        print('🔁 Loading indicator turned OFF');
       }
     } else {
-      // Same message continuing - update existing message
-      _currentAiFullMessage += message.content; // 🔥 ACCUMULATE CONTENT
+      // Append later chunks normally
+      _currentAiFullMessage += message.content;
       _updateStreamingMessage(message.content);
-
-      if (kDebugMode) {
-        print('📝 Accumulated content: "$_currentAiFullMessage"');
-      }
     }
 
-    // Reset timeout for same message
     _resetStreamingTimeout();
   }
+
+
+
 
   // 🔥 ADD: Update existing streaming message
   void _updateStreamingMessage(String newContent) {
@@ -182,7 +189,7 @@ class ChatViewModel extends StateNotifier<ChatState> {
 
   // 🔥 MODIFIED: Stop streaming and save complete message
   // 🔥 FIXED: Stop streaming without losing messages
-  void _stopStreamingCurrentMessage() {
+  Future<void> _stopStreamingCurrentMessage() async {
     if (_currentStreamingMessageIndex >= 0 &&
         _currentStreamingMessageIndex < state.messages.length) {
 
@@ -204,27 +211,51 @@ class ChatViewModel extends StateNotifier<ChatState> {
       messageList.state = List<MessageEntity>.from(newMessages); // Use copy
 
       // 🔥 SAVE COMPLETE MESSAGE TO DATABASE
+      // 🔥 SAVE COMPLETE MESSAGE TO DATABASE OR SPEAK IT
       if (_currentAiFullMessage.isNotEmpty) {
         if (kDebugMode) {
-          print('💾 Saving complete AI message to database: "$_currentAiFullMessage"');
+          print('💾 Complete AI message: "$_currentAiFullMessage"');
         }
-        final storeMessagesVM = ref.read(storedMessagesViewModelProvider.notifier);
-        final sessionId = ref.read(sessionProvider);
-        storeMessagesVM.saveMessage(
-            StoredMessageEntity(
-                session: sessionId,
-                sender: 'ai',
-                text: _currentAiFullMessage
-            )
-        );
+
+        if (isSpeech) {
+          // 🎧 SPEAK ONLY THE COMPLETE MESSAGE WHEN STREAMING ENDS
+          try {
+            final ttsVM = ref.read(ttsViewModelProvider.notifier);
+
+            if (kDebugMode) {
+              print('🔊 Attempting to speak message (length: ${_currentAiFullMessage.length}): "${_currentAiFullMessage.trim()}"');
+            }
+
+            // 🔥 CRITICAL FIX: ADD AWAIT HERE
+            await ttsVM.speak(_currentAiFullMessage.trim());
+
+            if (kDebugMode) {
+              print('🔊 Successfully spoke complete message: "${_currentAiFullMessage.trim()}"');
+            }
+          } catch (e) {
+            print('⚠️ Error speaking complete message: $e');
+          }
+        }else{
+          final storeMessagesVM = ref.read(storedMessagesViewModelProvider.notifier);
+          final sessionId = ref.read(sessionProvider);
+          storeMessagesVM.saveMessage(
+              StoredMessageEntity(
+                  session: sessionId,
+                  sender: 'ai',
+                  text: _currentAiFullMessage
+              )
+          );
+        }
       }
     }
+
 
     // 🔥 RESET tracking variables
     _currentStreamingMessageId = null;
     _currentStreamingMessageIndex = -1;
     _currentAiFullMessage = '';
     _cancelStreamingTimeout();
+
 
     if (kDebugMode) {
       print('✅ Streaming stopped. Total messages: ${state.messages.length}');

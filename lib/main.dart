@@ -167,7 +167,7 @@ class _MyAppState extends ConsumerState<MyApp> {
               child: Container(
                 key: ValueKey<bool>(isDarkMode),
                 color: Theme.of(context).scaffoldBackgroundColor,
-                child:  _isLoggedIn ? SpeechPage() : SignIn()
+                child:  _isLoggedIn ? MainApp() : SignIn()
               ),
             ),
           ),

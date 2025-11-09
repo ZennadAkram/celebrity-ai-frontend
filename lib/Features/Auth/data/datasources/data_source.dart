@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 class DataSource {
 final Dio _dio=PublicDio.dio;
 
-Future<void> SignIn(String username,String password)async{
+Future<String> SignIn(String username,String password)async{
   try{
     final response=await _dio.post('/auth/token/',data: {
       "username":username,
@@ -21,10 +21,13 @@ Future<void> SignIn(String username,String password)async{
       MaterialPageRoute(builder: (_) =>  MainApp()),
           (route) => false,
     );
+    return 'success';
   }on DioError catch(e){
     if(e.response!=null){
       print("🔴 Login failed: ${e.response?.data}");
-      throw Exception(e.response?.data['message']??"Login failed");
+
+      return e.response?.data['message'] ?? "Login failed";
+
     }else{
       print("🔴 Login error: $e");
       throw Exception("Network error occurred");
@@ -34,7 +37,7 @@ Future<void> SignIn(String username,String password)async{
     throw Exception("Unknown error occurred");
   }
 }
-Future<void> signUp(UserModel user) async {
+Future<String> signUp(UserModel user) async {
   try {
     // Build multipart body
    print("🔴🔴🔴🔴 ${user.getPassword() ?? "no password"}");
@@ -63,13 +66,22 @@ Future<void> signUp(UserModel user) async {
 
     print("🟢 Registration successful: ${response.data}");
   await SignIn(user.userName, user.getPassword()??"");
+    return 'success';
   } on DioError catch (e) {
     if (e.response != null) {
       print("🔴 Registration failed: ${e.response?.data}");
-      throw Exception(e.response?.data['message'] ?? "Registration failed");
+      final data = e.response?.data as Map<String, dynamic>;
+
+      // Flatten all field error messages into one string
+      String errorMessage = data.entries
+          .map((entry) => "${entry.key}: ${entry.value.join(', ')}")
+          .join("\n");
+
+      return errorMessage;
     } else {
       print("🔴 Network error: $e");
       throw Exception("Network error occurred");
+
     }
   } catch (e) {
     print("🔴 General error: $e");

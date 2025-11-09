@@ -34,7 +34,7 @@ class ChatPage extends HookConsumerWidget {
     useEffect((){
       // Initialize chat repository
       ref.read(chatRepositoryProvider).connect();
-      return null;
+      return ref.read(chatRepositoryProvider).disconnect;
     },[]
     );
 
@@ -155,7 +155,7 @@ class ChatPage extends HookConsumerWidget {
         // Input Field
             Material(
               color:isDark? Colors.black:AppColors.black1,
-              child:TextFieldChat(entitySession?.celebrity ?? entity?.id ?? 0, entitySession?.id)
+              child:TextFieldChat(entitySession?.celebrity ?? entity?.id ?? 0, entitySession?.id ,entitySession?.celebrity_name ?? "", entitySession?.celebrity_image ?? entity?.imageUrl ?? ""  ),
 
             ),
           ],

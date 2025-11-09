@@ -1,4 +1,5 @@
 import 'package:chat_with_charachter/Core/Constants/app_colors.dart';
+import 'package:chat_with_charachter/Features/Chats/presentation/views/speech_page.dart';
 import 'package:chat_with_charachter/Features/Chats/presentation/widgets/waves.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,7 +13,9 @@ import '../providers/stt_provider.dart';
 class TextFieldChat extends ConsumerWidget {
   final int celebrityId;
   final int? sessionId;
-  const TextFieldChat(this.celebrityId, this.sessionId, {super.key});
+  final String celebrityName;
+  final String celebrityImageUrl;
+  const TextFieldChat(this.celebrityId, this.sessionId, this.celebrityName, this.celebrityImageUrl, {super.key});
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
@@ -41,7 +44,13 @@ padding: EdgeInsets.symmetric(horizontal: 40.r),
              children: [
                Align(
 
-                   child: IconButton(onPressed: (){},style: IconButton.styleFrom(backgroundColor:isDark? AppColors.grey0:Colors.black) ,icon:Icon(Icons.graphic_eq_outlined,size: 30,color: Colors.white,))),
+                   child: IconButton(onPressed: (){
+                     Navigator.of(context).push(
+                       MaterialPageRoute(
+                         builder: (context) => SpeechPage(celebrityId, celebrityName, celebrityImageUrl, sessionId!),
+                       ),
+                     );
+                   },style: IconButton.styleFrom(backgroundColor:isDark? AppColors.grey0:Colors.black) ,icon:Icon(Icons.graphic_eq_outlined,size: 30,color: Colors.white,))),
                SizedBox(width: 0.03.sw,),
                Expanded(child:speechState.isListening
                    ? Align(

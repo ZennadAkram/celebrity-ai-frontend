@@ -4,10 +4,12 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../domain/usecases/SignUp_usecase.dart';
+import '../providers/providers.dart';
 
 class SignUpViewModel extends StateNotifier<AsyncValue<void>>{
   final SignUpUseCase _signUpUseCase;
-  SignUpViewModel(this._signUpUseCase):super(const AsyncData(null));
+  final Ref ref;
+  SignUpViewModel(this._signUpUseCase, this.ref):super(const AsyncData(null));
   final TextEditingController email=TextEditingController();
   final TextEditingController password=TextEditingController();
   final TextEditingController username=TextEditingController();
@@ -23,7 +25,13 @@ class SignUpViewModel extends StateNotifier<AsyncValue<void>>{
       );
       user.setPassword(password.text);
       print("🔴🔴🔴🔴 ${user.getPassword() ?? "no password"}");
-      await _signUpUseCase(user);
+     String resp= await _signUpUseCase(user);
+     print("Response from sign up: ${resp}");
+     if(resp.contains('A user with that username already exists')){
+       ref.read(userAlreadyExistsProvider.notifier).state=true;
+     }
+
+
       state=const AsyncData(null);
     }catch(e,st){
       state=AsyncError(e,st);

@@ -17,8 +17,8 @@ final categoryProvider=Provider<GetCategoriesUseCase>((ref){
 
 final categoryViewModelProvider=StateNotifierProvider<CategoryViewModel,AsyncValue<List<CategoryEntity>>>((ref){
   final useCase=ref.watch(categoryProvider);
-  return CategoryViewModel(useCase);
+  return CategoryViewModel(useCase, ref);
 });
 
-final categorySelectProvider=StateProvider<int>((ref)=>-1);
+final categorySelectProvider=StateProvider<int>((ref)=>0);
 

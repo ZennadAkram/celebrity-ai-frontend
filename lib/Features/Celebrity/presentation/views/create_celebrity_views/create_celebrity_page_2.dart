@@ -7,6 +7,7 @@ import '../../../../../Core/Constants/app_colors.dart';
 import '../../../../../Shared/Global_Widgets/chip_choice.dart';
 import '../../../../../generated/l10n.dart';
 import '../../providers/celebrity_providers.dart';
+import '../../providers/create_celebrity_providers/create_providers.dart';
 class CreateCelebrityPage2 extends ConsumerWidget {
   const CreateCelebrityPage2({super.key});
 
@@ -15,6 +16,12 @@ class CreateCelebrityPage2 extends ConsumerWidget {
     final viewModel=ref.watch(viewModelProvider.notifier);
     final viewModelChanger=ref.read(viewModelProvider.notifier);
     final private=ref.watch(isPrivateProvider.notifier);
+    final isCharacterNameEmpty=ref.watch(isCharacterNameEmptyProvider);
+    final isCharacterDescriptionEmpty=ref.watch(isCharacterDescriptionEmptyProvider);
+    final isCharacterGreetingEmpty=ref.watch(isCharacterGreetingEmptyProvider);
+
+    final isCharacterGender=ref.watch(genderProvider);
+    final isCharacterGenderEmpty=ref.watch(isCharacterGenderEmptyProvider);
     return Scaffold(
 
         body: SafeArea(
@@ -66,26 +73,27 @@ class CreateCelebrityPage2 extends ConsumerWidget {
                     enabledBorder: OutlineInputBorder( // ← Add this
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
-                        color: AppColors.grey1,
+                        color:isCharacterNameEmpty? Colors.redAccent: AppColors.grey1,
                         width: 1.0,
                       ),
                     ),
-                   border: OutlineInputBorder(
-                     borderRadius: BorderRadius.circular(12),
-                     borderSide: BorderSide(
-                       color: AppColors.grey1
-                     )
-                   ),
+
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(
-                            color: AppColors.brand1
+                             color:isCharacterNameEmpty? Colors.redAccent:  AppColors.brand1
                         )
                     ),
                     hintText: S.of(context).characterNameHint,
                     hintStyle: TextStyle(
                       color: AppColors.grey1
                     ),
+                    helperText: isCharacterNameEmpty ? 'name must not be empty' : null,
+                    helperStyle: TextStyle(
+                        color: Colors.redAccent ,
+                        fontSize: 35.sp
+                    ),
+
                   ),
                 ),
                 SizedBox(height: 0.03.sh,),
@@ -108,11 +116,16 @@ class CreateCelebrityPage2 extends ConsumerWidget {
                   filled: true,
                   enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(12)),
-                  borderSide: BorderSide(color: AppColors.grey1),
+                  borderSide: BorderSide(color:isCharacterGenderEmpty? Colors.redAccent: AppColors.grey1),
+                  ),
+                  helperText: isCharacterGenderEmpty ? 'gender must not be empty' : null,
+                  helperStyle: TextStyle(
+                  color: Colors.redAccent ,
+                  fontSize: 35.sp
                   ),
                   focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(12)),
-                  borderSide: BorderSide(color: AppColors.brand1),
+                  borderSide: BorderSide(color:isCharacterGenderEmpty? Colors.redAccent: AppColors.brand1),
                   ),
                   ),
                   hint:  Text(
@@ -174,18 +187,23 @@ class CreateCelebrityPage2 extends ConsumerWidget {
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(
-                              color: AppColors.grey1
+                              color:isCharacterDescriptionEmpty? Colors.redAccent: AppColors.grey1
                           )
                       ),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(
-                              color: AppColors.brand1
+                              color:isCharacterDescriptionEmpty? Colors.redAccent: AppColors.brand1
                           )
                       ),
                       hintText: S.of(context).characterDescriptionHint,
                       hintStyle: TextStyle(
                           color: AppColors.grey1
+                      ),
+                      helperText: isCharacterDescriptionEmpty ? 'description must not be empty' : null,
+                      helperStyle: TextStyle(
+                          color: Colors.redAccent ,
+                          fontSize: 35.sp
                       ),
                     ),
                   ),
@@ -226,18 +244,23 @@ class CreateCelebrityPage2 extends ConsumerWidget {
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(
-                              color: AppColors.grey1
+                              color:isCharacterGreetingEmpty? Colors.redAccent: AppColors.grey1
                           )
                       ),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(
-                              color: AppColors.brand1
+                              color:isCharacterGreetingEmpty? Colors.redAccent: AppColors.brand1
                           )
                       ),
                       hintText: S.of(context).greetingHint,
                       hintStyle: TextStyle(
                           color: AppColors.grey1
+                      ),
+                      helperText: isCharacterGreetingEmpty ? 'greeting must not be empty' : null,
+                      helperStyle: TextStyle(
+                          color: Colors.redAccent ,
+                          fontSize: 35.sp
                       ),
                     ),
                   ),
@@ -286,6 +309,50 @@ class CreateCelebrityPage2 extends ConsumerWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(onPressed: (){
+                    if(viewModel.nameController.text.isEmpty || viewModel.descriptionController.text.isEmpty || viewModel.greetingController.text.isEmpty || isCharacterGenderEmpty==null){
+                      if(viewModel.nameController.text.isEmpty) {
+                        ref
+                            .read(isCharacterNameEmptyProvider.notifier)
+                            .state = true;
+                      }else{
+                        ref
+                            .read(isCharacterNameEmptyProvider.notifier)
+                            .state = false;
+                      }
+                      if(viewModel.descriptionController.text.isEmpty) {
+                        ref
+                            .read(isCharacterDescriptionEmptyProvider.notifier)
+                            .state = true;
+                      }else {
+                        ref
+                            .read(isCharacterDescriptionEmptyProvider.notifier)
+                            .state = false;
+                      }
+                      if(viewModel.greetingController.text.isEmpty) {
+                        ref
+                            .read(isCharacterGreetingEmptyProvider.notifier)
+                            .state = true;
+                      }else {
+                        ref
+                            .read(isCharacterGreetingEmptyProvider.notifier)
+                            .state = false;
+                      }
+                      if(isCharacterGender==null){
+                        ref
+                            .read(isCharacterGenderEmptyProvider.notifier)
+                            .state = true;
+                      }else{
+                        ref
+                            .read(isCharacterGenderEmptyProvider.notifier)
+                            .state = false;
+                      }
+                      return;
+
+
+
+
+                    }
+
                     Navigator.of(context).push(
                       MaterialPageRoute(
                           maintainState: true,  // Keep previous route's state

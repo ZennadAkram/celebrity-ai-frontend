@@ -22,11 +22,11 @@ final useCaseSignUpProvider=Provider<SignUpUseCase>((ref){
 });
 
 final signUpViewModel=StateNotifierProvider<SignUpViewModel,AsyncValue<void>>((ref){
-  return SignUpViewModel(ref.watch(useCaseSignUpProvider));
+  return SignUpViewModel(ref.watch(useCaseSignUpProvider), ref);
 });
 
 final signInViewModel=StateNotifierProvider<LogInViewModel,AsyncValue<void>>((ref){
-  return LogInViewModel(ref.watch(useCaseProvider));
+  return LogInViewModel(ref.watch(useCaseProvider), ref);
 });
 
 
@@ -38,3 +38,11 @@ final signInViewModel=StateNotifierProvider<LogInViewModel,AsyncValue<void>>((re
 
 final toggleVisible=StateProvider<bool>((ref)=>false);
 final toggleVisibleSignUp=StateProvider<bool>((ref)=>false);
+
+final wrongCredentialsProvider=StateProvider<bool>((ref)=>false);
+final userAlreadyExistsProvider=StateProvider<bool>((ref)=>false);
+final emptyUserNameProvider=StateProvider<bool>((ref)=>false);
+final emptyEmailProvider=StateProvider<bool>((ref)=>false);
+final emptyPasswordProvider=StateProvider<bool>((ref)=>false);
+final passwordTooShortProvider=StateProvider<bool>((ref)=>false);
+

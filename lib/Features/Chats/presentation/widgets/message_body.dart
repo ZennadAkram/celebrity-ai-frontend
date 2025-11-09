@@ -63,7 +63,7 @@ class _MessagesBodyState extends ConsumerState<MessagesBody> {
             padding: EdgeInsets.only(top: 40),
             child: ListView.builder(
               controller: _scrollController,
-              reverse: true, // newest messages at the bottom
+              reverse:messageList.length==0 ? false:true, // newest messages at the bottom
               padding: EdgeInsets.zero,
               itemCount: messageList.length + (isLoading ? 1 : 0),
               itemBuilder: (context, index) {
@@ -107,7 +107,7 @@ class _MessagesBodyState extends ConsumerState<MessagesBody> {
             ),
           ),
 
-          // ✅ Circular progress at the top when loading older messages
+
           if (_isFetchingOlder)
             Positioned(
               top: 0,

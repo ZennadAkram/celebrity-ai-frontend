@@ -10,7 +10,7 @@ import '../../../../../Core/Constants/app_colors.dart';
 import '../../../../../Core/Services/file_helper.dart';
 import '../../../../../Core/Services/image_picker.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../domain/entities/celebrity.dart';
+
 import '../../providers/celebrity_providers.dart';
 import '../../providers/create_celebrity_providers/avatar_select_provider.dart';
 import 'create_celebrity_page_5.dart';
@@ -20,7 +20,7 @@ class CreateCelebrityPage4 extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel=ref.watch(viewModelProvider.notifier);
+
     final viewModelChanger=ref.read(viewModelProvider.notifier);
     final colorSelected=ref.watch(colorSelectedProvider);
     final colorSelector=ref.read(colorSelectedProvider.notifier);

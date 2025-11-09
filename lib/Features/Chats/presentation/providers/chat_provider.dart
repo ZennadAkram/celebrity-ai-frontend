@@ -16,7 +16,7 @@ import '../viewmodels/chat_view_model.dart';
 final chatViewModelProvider =
 StateNotifierProvider<ChatViewModel, ChatState>((ref) {
   return ChatViewModel(
-      ref.watch(sendMessageUseCaseProvider), ref
+      ref.watch(sendMessageUseCaseProvider), ref,false
   );
 });
 
