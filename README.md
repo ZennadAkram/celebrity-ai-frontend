@@ -12,10 +12,9 @@
 - **AI Character Chat**: Text & voice chat with characters.
 - **Text-to-Speech**: Characters can speak their responses.
 - **Voice Input**: Speech-to-text for sending messages.
-- **Media Support**: Display character avatars (3D, anime, movies).
+- **Media Support**: Display character avatars
 - **State Management**: Uses Riverpod and Hooks for reactive UI.
 - **Persistent Storage**: Local caching with Hive.
-- **Multi-Platform**: Works on Android, iOS, and Web.
 
 ---
 
@@ -34,5 +33,5 @@
 1. **Clone the repo**
 
 ```bash
-git clone <YOUR_FRONTEND_REPO_URL>
+git clone https://github.com/ZennadAkram/celebrity_ai.git
 cd chat_with_character
