@@ -6,12 +6,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
+import '../../../../Core/Providers/user_provider.dart';
+
 class ProfileViewModel extends StateNotifier<AsyncValue<User>>{
+  final Ref ref;
   final GetUserUseCase _getUserUseCase;
   final EditUserUseCase _editUserUseCase;
   final DeleteUserUseCase _deleteUserUseCase;
 
-  ProfileViewModel(this._getUserUseCase, this._editUserUseCase, this._deleteUserUseCase):super(const AsyncLoading()){
+  ProfileViewModel(this._getUserUseCase, this._editUserUseCase, this._deleteUserUseCase, this.ref):super(const AsyncLoading()){
    loadUser();
   }
 
@@ -23,7 +26,7 @@ class ProfileViewModel extends StateNotifier<AsyncValue<User>>{
     try{
       state=const AsyncLoading();
       final user=await _getUserUseCase();
-
+      ref.read(userProvider.notifier).state=user;
       state=AsyncData(user);
       userNameController.text=user.userName;
       emailController.text=user.email!;
@@ -31,9 +34,11 @@ class ProfileViewModel extends StateNotifier<AsyncValue<User>>{
       state=AsyncError(e,st);
     }
   }
+
   Future<void> editUser(User user) async{
     try{
       state=const AsyncLoading();
+      ref.read(userProvider.notifier).state=user;
       await _editUserUseCase(user);
 
       state=AsyncData(user);
@@ -43,6 +48,7 @@ class ProfileViewModel extends StateNotifier<AsyncValue<User>>{
   }
   Future<void> deleteUser(int id) async {
     try {
+      ref.read(userProvider.notifier).state=null;
       state = const AsyncLoading();
       await _deleteUserUseCase(id);
 

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../Core/Constants/app_colors.dart';
+import '../../../../Core/Providers/user_provider.dart';
 
 class MessageBableUser extends HookConsumerWidget {
   const MessageBableUser(this.message, this.time, {super.key});
@@ -15,11 +16,8 @@ class MessageBableUser extends HookConsumerWidget {
   final DateTime time;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
-
-    // Run once to initialize data
-
-    return Column(
+  final user=ref.watch(userProvider);
+  return Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Padding(
@@ -60,16 +58,16 @@ class MessageBableUser extends HookConsumerWidget {
                   ),),
 
                 Positioned(
-                  bottom: -52,
-                  right: -15,
+                  bottom: -50,
+                  right: -12,
                   child: ClipOval(
 
-                    child: Icon(Icons.account_circle,color: AppColors.grey1,size: 48,)),
+                    child:user != null? CachedNetworkImage(imageUrl:user.avatarUrl??"",width: 45,height: 45,fit: BoxFit.cover,): Icon(Icons.account_circle,color: AppColors.grey1,size: 45,)),
 
                 ),
                 Positioned(
                     bottom: -23,
-                    left: 10,
+                    left: 0,
                     child: Text(time.hour.toString()+":"+(time.minute<10?"0"+time.minute.toString():time.minute.toString()),style: TextStyle(
                         color: Color.fromRGBO(136, 136, 136,1),
                         fontSize: 12

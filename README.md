@@ -1,16 +1,38 @@
-# chat_with_character
+# Chat with Character (Flutter Frontend)
 
-A new Flutter project.
+[![License: Private](https://img.shields.io/badge/License-Private-red.svg)](LICENSE)
 
-## Getting Started
+**Chat with Character** is a Flutter application that allows users to chat with AI-powered characters (celebrities, anime, movies, etc.) using a dedicated Django REST Framework backend. It supports text, voice, and TTS interactions with rich avatars.
 
-This project is a starting point for a Flutter application.
+---
 
-A few resources to get you started if this is your first Flutter project:
+## Features
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **User Authentication**: JWT, Google, Facebook, and Discord login.
+- **AI Character Chat**: Text & voice chat with characters.
+- **Text-to-Speech**: Characters can speak their responses.
+- **Voice Input**: Speech-to-text for sending messages.
+- **Media Support**: Display character avatars (3D, anime, movies).
+- **State Management**: Uses Riverpod and Hooks for reactive UI.
+- **Persistent Storage**: Local caching with Hive.
+- **Multi-Platform**: Works on Android, iOS, and Web.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## Tech Stack
+
+- **Frontend**: Flutter (Dart 3.9), Riverpod, Hooks, Flutter TTS, Speech-to-Text, Camera, Hive
+- **Backend**: Django REST Framework (separate repository)
+- **Real-time**: WebSocket support for live chat (via backend)
+- **Authentication**: OAuth2 (Google, Facebook, Discord), JWT
+- **Environment Config**: `.env` support via `flutter_dotenv`
+
+---
+
+## Installation
+
+1. **Clone the repo**
+
+```bash
+git clone <YOUR_FRONTEND_REPO_URL>
+cd chat_with_character

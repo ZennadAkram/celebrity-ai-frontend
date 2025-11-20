@@ -33,7 +33,7 @@ final profileViewModelProvider =
   final editUserUseCase = ref.watch(editUserUseCaseProvider);
   final deleteUserUseCase = ref.watch(deleteUserUseCaseProvider);
   return ProfileViewModel(
-      getUserUseCase, editUserUseCase, deleteUserUseCase);
+      getUserUseCase, editUserUseCase, deleteUserUseCase,ref);
 });
 final isImageChangedProvider = StateProvider<bool>((ref) {
   return false;
