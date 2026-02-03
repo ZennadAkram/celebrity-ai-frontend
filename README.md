@@ -28,10 +28,23 @@
 
 ---
 
-## Installation
 
-1. **Clone the repo**
+## 🚀 Quick Start
 
+### Prerequisites
+- Flutter 3.16+ `flutter --version`
+- Dart 3.9+
+- Backend running (see [backend repo](https://github.com/ZennadAkram/celebrity-ai-backend))
+
+### Installation
 ```bash
+# 1. Clone repository
 git clone https://github.com/ZennadAkram/celebrity_ai.git
 cd chat_with_character
+
+# 2. Install dependencies
+flutter pub get
+
+# 3. Configure environment
+cp .env.example .env
+# Edit .env with your configuration
