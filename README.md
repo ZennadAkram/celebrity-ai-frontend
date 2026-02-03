@@ -1,5 +1,7 @@
-# Chat with Character (Flutter Frontend)
+# Chat with Character (Flutter Frontend
 
+![Flutter](https://img.shields.io/badge/Flutter-3.16-blue)
+![Dart](https://img.shields.io/badge/Dart-3.9-blue)
 [![License: Private](https://img.shields.io/badge/License-Private-red.svg)](LICENSE)
 
 **Chat with Character** is a Flutter application that allows users to chat with AI-powered characters (celebrities, anime, movies, etc.) using a dedicated Django REST Framework backend. It supports text, voice, and TTS interactions with rich avatars.
