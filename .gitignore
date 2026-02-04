@@ -43,5 +43,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Android local properties (SDK paths + secrets)
+android/local.properties
+
 #ENVS
 .env
