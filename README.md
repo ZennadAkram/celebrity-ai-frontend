@@ -41,7 +41,7 @@
 ### Installation
 ```bash
 # 1. Clone repository
-git clone https://github.com/ZennadAkram/celebrity_ai.git
+git clone https://github.com/ZennadAkram/celebrity-ai-frontend.git
 cd chat_with_character
 
 # 2. Install dependencies
