@@ -6,6 +6,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   desktop_webview_window
   file_selector_windows
   flutter_secure_storage_windows
+  flutter_sound
   flutter_tts
   permission_handler_windows
   speech_to_text_windows

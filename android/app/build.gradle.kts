@@ -4,11 +4,6 @@ plugins {
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
-val facebookAppId: String =
-    project.findProperty("facebook_app_id") as String? ?: ""
-
-val facebookClientToken: String =
-    project.findProperty("facebook_client_token") as String? ?: ""
 
 android {
     namespace = "com.example.chat_with_charachter"
@@ -33,10 +28,6 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-
-        resValue("string", "facebook_app_id", facebookAppId)
-        resValue("string", "facebook_client_token", facebookClientToken)
-
     }
 
     buildTypes {
