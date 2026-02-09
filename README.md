@@ -32,28 +32,28 @@
 ## Screenshots
 
 ### Home Screen
-<img src="images/screenshots/Screenshot_2025-11-21-12-18-14-429_com.example.chat_with_charachter.jpg" style="max-width:400px; width:100%;" />
+<img src="images/screenshots/Screenshot_2025-11-21-12-18-14-429_com.example.chat_with_charachter.jpg" width="320" />
 
 ### Chat Screen
-<img src="images/screenshots/Screenshot_2025-11-21-17-04-01-484_com.example.chat_with_charachter.jpg" style="max-width:400px; width:100%;" />
+<img src="images/screenshots/Screenshot_2025-11-21-21-17-04-01-484_com.example.chat_with_charachter.jpg" width="320" />
 
 ### Chat With Voice Screen
-<img src="images/screenshots/Screenshot_2025-11-21-12-23-07-109_com.example.chat_with_charachter.jpg" style="max-width:400px; width:100%;" />
+<img src="images/screenshots/Screenshot_2025-11-21-12-23-07-109_com.example.chat_with_charachter.jpg" width="320" />
 
 ### Create Character Screens
-<img src="images/screenshots/Screenshot_2025-11-21-12-23-34-156_com.example.chat_with_charachter.jpg" style="max-width:400px; width:100%;" />
-<img src="images/screenshots/Screenshot_2025-11-21-12-23-46-240_com.example.chat_with_charachter.jpg" style="max-width:400px; width:100%;" />
-<img src="images/screenshots/Screenshot_2025-11-21-12-24-28-601_com.example.chat_with_charachter.jpg" style="max-width:400px; width:100%;" />
+<img src="images/screenshots/Screenshot_2025-11-21-12-23-34-156_com.example.chat_with_charachter.jpg" width="320" />
+<img src="images/screenshots/Screenshot_2025-11-21-12-23-46-240_com.example.chat_with_charachter.jpg" width="320" />
+<img src="images/screenshots/Screenshot_2025-11-21-12-24-28-601_com.example.chat_with_charachter.jpg" width="320" />
 
 ### Login Screen
-<img src="images/screenshots/Screenshot_2025-11-21-17-11-38-993_com.example.chat_with_charachter.jpg" style="max-width:400px; width:100%;" />
+<img src="images/screenshots/Screenshot_2025-11-21-17-11-38-993_com.example.chat_with_charachter.jpg" width="320" />
 
 ### Library Screen
-<img src="images/screenshots/Screenshot_2025-11-21-12-19-08-526_com.example.chat_with_charachter.jpg" style="max-width:400px; width:100%;" />
+<img src="images/screenshots/Screenshot_2025-11-21-12-19-08-526_com.example.chat_with_charachter.jpg" width="320" />
 
 ### User Profile Screens
-<img src="images/screenshots/Screenshot_2025-11-21-12-21-32-917_com.example.chat_with_charachter.jpg" style="max-width:400px; width:100%;" />
-<img src="images/screenshots/Screenshot_2025-11-21-12-21-42-545_com.example.chat_with_charachter.jpg" style="max-width:400px; width:100%;" />
+<img src="images/screenshots/Screenshot_2025-11-21-12-21-32-917_com.example.chat_with_charachter.jpg" width="320" />
+<img src="images/screenshots/Screenshot_2025-11-21-12-21-42-545_com.example.chat_with_charachter.jpg" width="320" />
 
 ---
 
